@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<!-- Mirrored from sudoku9x9.com/x_wing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:34:23 GMT -->
+<head>
+<title>X-Wing - Sudoku Solving Techniques</title>
+<meta name="description" content="A description of X-Wing - an advanced Sudoku solving technique.">
+<meta name="keywords" content="X-Wing, Sudoku tips, Sudoku solving techniques, advanced, How to solve Sudoku puzzles, sudoku, 9x9">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="css/bstd7.css">
+<link rel="icon" href="favicon.ico">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<body>
+<div id="container">
+<div id="header">
+<div id="headerl">
+<div id="titlepic">
+<a href="index.html"><img src="img/title_small.png" alt="Sudoku 9x9.com" title="Sudoku 9x9.com"></a>
+</div>
+</div>
+<div id="headerr">
+<div id="title">
+<h1>Technique: X-Wing</h1>
+</div>
+<div id="hnavigator">
+<div class="mainnav">
+<p><a href="index.html">Free Online Sudoku</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_daily_9x9.html">Daily Sudoku</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_blank_grid_9x9.html">Blank Grid</a></p>
+</div>
+<div class="mainnav">
+<p><a href="smartsolver.html">Sudoku Solver</a></p>
+</div>
+<div class="mainnav" id="active">
+<p><a href="sudoku_solving_techniques_9x9.html">Solving Techniques</a></p>
+</div>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div id="technique">
+<h2>Sudoku Solving Techniques</h2>
+<h3>X-Wing</h3>
+<p>If a digit is a candidate for exactly two cells in two different rows and the positions (columns) of those two cells in those two different rows are exactly the same, then this digit cannot be a candidate for any other rows in the same two positions (columns).</p>
+<p>Consider the following Sudoku puzzle:</p>
+<div>
+<img src="img/xwing.png" alt="a Sudoku with X-Wing pattern" class="fleft">
+<div class="inside_ad">
+<script async src="../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- 336x280, new image ad in text created 1/19/11 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-1102313833018298"
+     data-ad-slot="0361750879"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+</div>
+<div class="clearfloat">
+<p>The four cells in yellow form a X-Wing pattern.  The digit 7 is a candidate in exactly two cells in the third and sixth rows.  Also the positions in these two rows are exactly the same at the fifth and seventh columns.  There are two possible outcomes for the digit 7 in these two rows: </p>
+<ol>
+  <li>the fifth column in the third row and the seventh column in the sixth row, or</li>
+  <li>the seventh column in the third row and the fifth column in the sixth row.</li>
+</ol>
+<p>Although we do not know which case is correct, it guarantees that the digit 7 must be in the third row or the sixth row at the seventh column.  Therefore the 7 in the blue cell can be eliminated as a candidate.</p>
+<p>The solution of this puzzle is almost reached after this step.  But we need another technique called <a href="xyz_wing.html">XYZ-Wing</a>.</p>
+<p>Please note that the roles of rows and columns for this technique can be swapped.</p>
+</div>
+</div>
+<div class="clearfloat" id="techniques_link">
+<a href="hidden_pair.html">Previous</a> | <a href="sudoku_solving_techniques_9x9.html">List</a> | <a href="swordfish.html">Next</a>
+</div>
+<div id="footer">
+<p>
+<a class="flink1" href="sudoku_rules.html">Sudoku Rules</a>
+<a class="flink1" href="privacy_policy.html" rel="nofollow">Privacy Policy</a>
+<a class="flink1" href="contact_sudoku_9x9.html" rel="nofollow">Contact Us</a>
+</p>
+<div id="smalltext">
+Copyright &copy; 2009-<span id="yr"></span> Sudoku9x9.com - All Rights Reserved.
+</div>
+</div>
+</div>
+<script type="text/javascript">
+var d=new Date();
+document.getElementById("yr").innerHTML=d.getFullYear()+" ";
+</script>
+</body>
+
+<!-- Mirrored from sudoku9x9.com/x_wing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:34:23 GMT -->
+</html>
+

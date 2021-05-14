@@ -1,0 +1,1632 @@
+h = '<script type="text/javascript">top.location = "http://www.sudoku9x9.com"</script>';<!-- ';
+function clsbx(boxnm) {
+   document.getElementById(boxnm).style.display = 'none';
+}
+
+function clsini() {
+    clsbx('popbg');
+	clsbx('popbx');
+	if (!subsess) 
+	{ 
+	 strtpause();
+	 for (i=0;i<81;i++)
+	 {
+	  if (orig[i]!=0) 
+	  {
+	   dumval=document.getElementById('c'+i).value;
+	   document.getElementById('c'+i).value=((dumval-1)-i+89)%9+1;
+	  } 
+	 }
+	} 
+	if (subdate!="") 
+	{
+	 createCookie("dcdate",subdate,1);
+	} 
+    if (shownmbr) countdg();
+	return false;
+}
+
+function clssub() {
+    clsbx('popbg');
+	clsbx('popsub');
+	return false;
+}
+
+function rstrt()
+{
+ var ncount=0;
+ var clear=confirm("Are you sure you want to clear all cells?");
+ if (clear==true)
+ {
+  if (rdstep>0) resetredo();
+  resetundo();
+  for(i=0;i<81;i++)
+  {
+   if (orig[i]==0 && ((truecolor(document.getElementById('cell'+i).style.backgroundColor)!=nobgclr && document.getElementById('cell'+i).style.backgroundColor!="") || document.getElementById('c'+i).value.length>0)) ncount++;
+   document.getElementById('c'+i).className=ncls;
+   related[i]=false;   
+   document.getElementById('c'+i).readOnly=false;
+   document.getElementById('cell'+i).style.backgroundColor="";   
+   if(orig[i]==0) document.getElementById('c'+i).value="";
+  }
+  document.getElementById("broadcastmsg").innerHTML = "Fresh start!";  
+  if (shownmbr) countdg();
+  if (ncount>0)
+  {
+   if (dcps.length>0) dcps=dcps+"/";
+   dcps=dcps+"x";  
+  }
+ }
+}
+
+function vname(form)
+{
+ if (document.getElementById('subname').value.length==0)
+ {
+  var anonyn=confirm('Your name is empty.  If you want an anonymous submission, click "OK".  Otherwise click "Cancel" and input your name.');
+  if (anonyn)
+  {
+   document.getElementById('subname').value="Anonymous";
+   return true;
+  }
+  else 
+  {
+   return false;
+  } 
+ }
+ else if (/^[a-z\-\s\d]*$/i.test(document.getElementById('subname').value)) 
+ {
+  return true;
+ }
+ else 
+ {
+  alert('Only alphabets a-z, A-z, numbers 0-9, hyphens "-" and spaces are allowed.  Please check and input your name again.');
+  return false;
+ }
+}
+
+function subps()
+{
+ boobtime=false;
+ boosub=false;
+ if ((btime[0]>0 && ms>0 && ms<btime[0])|| (btime[0]==0 && ms>0))
+ {
+  boobtime=true;
+ }
+ if (ms>0 && (btime[9]==0 || ms<btime[9]))
+ {
+  boosub=true;
+ }
+ if (boosub)
+ {
+  if (boobtime) 
+  {
+   document.getElementById('submsg').innerHTML="Superb! Best Time of the Day!";
+   praise="You are a champ!  ";
+   document.getElementById('subrank').value="1";
+  } 
+  else 
+  {
+   document.getElementById('submsg').innerHTML="Brilliant! Top 10 Best Time!";
+   praise="What an amazing job!  ";
+   document.getElementById('subrank').value="2";   
+  }
+  document.getElementById('subtime').value=ms;
+  document.getElementById('curdate').value=subdate;
+  if (min>60)
+  {
+   hr=Math.floor(min/60);
+   min=min%60;
+  }
+  else hr=0;
+  if (hr>0 && min<10)
+  {
+   dmin="0"+min;
+  }
+  else dmin=min;
+  var ntimeshown="";
+  if (hr>0) ntimeshown+=hr+":";
+  ntimeshown+=dmin+":"+dsec;
+  document.getElementById('sshowtime').innerHTML=ntimeshown;
+  document.getElementById('submsg2').innerHTML=praise+"Now submit your time to show the world what you just achieved.";
+  document.getElementById('stimefmt').value=timeshown;
+  svps();
+  clsbx("sublose");
+ }
+ else
+ {
+  document.getElementById('submsg').innerHTML="Congratulations!";
+  document.getElementById('submsg2').innerHTML="You just did an excellent job to solve this puzzle.  However your time did not make our top 10 list.  Please come back tomorrow and try again for a new challenge.  Now you can play more Sudoku puzzles to shapen your skills.";
+  clsbx("subwin");
+ }
+ totaldelay=50*87+5*300;
+ setTimeout("dispsub()",totaldelay);
+}
+
+function dispsub()
+{
+ document.getElementById('popbg').style.display = 'block'; 
+ document.getElementById('popsub').style.display = 'block';
+}
+
+function subpage()
+{
+ subsess=true;
+ document.getElementById('time2').innerHTML=stimefmt;
+ document.getElementById('broadcastmsg').innerHTML ="Congratulations!  You just solved this puzzle in "+stimefmt+".";
+ for (i=0;i<81;i++)
+ {
+  gridps(i);
+  document.getElementById('c'+i).value=solution[i];
+ }
+}
+
+function clrfld()
+{
+ if (truecolor(document.getElementById('subname').style.color)!="#333333") document.getElementById('subname').value="";
+ document.getElementById('subname').style.color="#333333";
+}
+
+function solved()
+{
+ var done=true;
+ var itemp=new Array(9),chkrow=new Array(9),chkcol=new Array(9),chksqr=new Array(9);
+  for(i=0;i<9;i++)
+  {
+   itemp[i]=new Array(9);
+   chkrow[i]=new Array(9);
+   chkcol[i]=new Array(9);
+   chksqr[i]=new Array(9);
+  }
+  for(i=0;i<9;i++)
+  {
+   for(j=0;j<9;j++)
+   {
+    idx=9*i+j;
+    chkrow[i][j]=0;
+    chkcol[i][j]=0;
+    chksqr[i][j]=0;
+    if (document.getElementById('c'+idx).value.length!=1 || document.getElementById('c'+idx).className==smcls)
+    {
+     done=false;
+    } 
+    else if ((("123456789").indexOf(document.getElementById('c'+idx).value) > -1)) 
+    {
+     itemp[i][j]=1*document.getElementById('c'+idx).value;
+    }
+    else
+    {
+     done=false;
+    }
+   } 
+  }
+  if (done)
+  {
+   for(i=0;i<9;i++)
+   {
+    for(j=0;j<9;j++)
+    {
+     chkrow[i][itemp[i][j]-1]++;
+	 chkcol[j][itemp[i][j]-1]++;
+     isqr=rc2sqr(i,j);
+	 chksqr[isqr][itemp[i][j]-1]++;
+    }
+   }
+   for(i=0;i<9;i++)
+   {
+    for(k=0;k<9;k++)
+    {
+     if(chkrow[i][k]>1)
+     {
+      for(j=0;j<9;j++)
+      {
+	   idx=9*i+j;
+       if (orig[idx]==0 && itemp[i][j]==k+1) 
+	   {
+        done=false;
+		break;
+       }	   
+	  }	
+     } 	 
+    }
+   }
+
+   for(j=0;j<9;j++)
+   {
+    for(k=0;k<9;k++)
+    {
+     if(chkcol[j][k]>1)
+     {
+      for(i=0;i<9;i++)
+      {
+	   idx=9*i+j;
+       if (orig[idx]==0 && itemp[i][j]==k+1) 
+	   {
+	    done=false;
+		break;
+       }	  
+      }	
+     } 	 
+    }
+   }
+
+   for(isqr=0;isqr<9;isqr++)
+   {
+    for(k=0;k<9;k++)
+    {
+     if(chksqr[isqr][k]>1)
+     {
+      for(ii=0;ii<3;ii++)
+      {
+       for(jj=0;jj<3;jj++)
+	   {
+	    i=sqrc2r(isqr,ii);
+	    j=sqrc2c(isqr,jj);
+	    idx=9*i+j;
+        if (orig[idx]==0 && itemp[i][j]==k+1) 
+	    {
+	     done=false;
+		 break;
+	    }	
+       }	  
+	  }	
+     } 	 
+    }
+   }
+  }
+ if (done) 
+ {
+  dcps=dcps+"/d";
+  finishps();
+  if (fh && subprev==true) subps();
+ } 
+}
+
+function chk_dcrslt()
+{
+ var itemp=new Array(9),chkrow=new Array(9),chkcol=new Array(9),chksqr=new Array(9);
+  var rowfail=0,colfail=0,sqrfail=0,msg="";
+  var oldstep=step;
+  for(i=0;i<9;i++)
+  {
+   itemp[i]=new Array(9);
+   chkrow[i]=new Array(9);
+   chkcol[i]=new Array(9);
+   chksqr[i]=new Array(9);
+  }
+  c_bgcolor();
+  if (step==oldstep) dcps=dcps+"/d";
+  else if (dcps.charAt(dcps.length-1)=='c') dcps=dcps.substr(0,dcps.length-1)+'d';
+  fail=false; 
+  for(i=0;i<9;i++)
+  {
+   for(j=0;j<9;j++)
+   {
+    idx=9*i+j;
+    chkrow[i][j]=0;
+    chkcol[i][j]=0;
+    chksqr[i][j]=0;
+    if (document.getElementById('c'+idx).value.length!=1 || document.getElementById('c'+idx).className==smcls)
+    {
+     if (step==0) document.getElementById('bundo').style.color="";
+     fail=true;
+     step=oldstep+1;
+     length2step[historylength%stacklength]=step;
+     historyvalue[historylength%stacklength]=document.getElementById('c'+idx).value;
+     historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+idx).style.backgroundColor);
+     historyfont[historylength%stacklength]=document.getElementById('c'+idx).className;
+     historycellnumber[historylength%stacklength]=idx;
+     historylength++;
+     if (rdstep>0) resetredo();
+     document.getElementById('cell'+idx).style.backgroundColor=hlcolor;    
+    } 
+    else if ((("123456789").indexOf(document.getElementById('c'+idx).value) > -1)) 
+    {
+     itemp[i][j]=1*document.getElementById('c'+idx).value;
+    }
+    else
+    {
+     if (step==0) document.getElementById('bundo').style.color="";
+     fail=true;
+     step=oldstep+1;
+     length2step[historylength%stacklength]=step;
+     historyvalue[historylength%stacklength]=document.getElementById('c'+idx).value;
+     historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+idx).style.backgroundColor);
+     historyfont[historylength%stacklength]=document.getElementById('c'+idx).className;
+     historycellnumber[historylength%stacklength]=idx;
+     historylength++;
+     if (rdstep>0) resetredo();
+     document.getElementById('cell'+idx).style.backgroundColor=hlcolor;    
+    }
+   } 
+  }
+  if (fail)
+  {
+   document.getElementById("broadcastmsg").innerHTML = "You are not done yet.";  
+  } 
+  else
+  {
+   for(i=0;i<9;i++)
+   {
+    for(j=0;j<9;j++)
+    {
+     chkrow[i][itemp[i][j]-1]++;
+	 chkcol[j][itemp[i][j]-1]++;
+     isqr=rc2sqr(i,j);
+	 chksqr[isqr][itemp[i][j]-1]++;
+    }
+   }
+   for(i=0;i<9;i++)
+   {
+    for(k=0;k<9;k++)
+    {
+     if(chkrow[i][k]>1)
+     {
+      for(j=0;j<9;j++)
+      {
+	   idx=9*i+j;
+       if (orig[idx]==0 && itemp[i][j]==k+1) 
+	   {
+        rowfail++;
+       }	   
+	  }	
+     } 	 
+    }
+   }
+
+   for(j=0;j<9;j++)
+   {
+    for(k=0;k<9;k++)
+    {
+     if(chkcol[j][k]>1)
+     {
+      for(i=0;i<9;i++)
+      {
+	   idx=9*i+j;
+       if (orig[idx]==0 && itemp[i][j]==k+1) 
+	   {
+	    colfail++;
+       }	  
+      }	
+     } 	 
+    }
+   }
+
+   for(isqr=0;isqr<9;isqr++)
+   {
+    for(k=0;k<9;k++)
+    {
+     if(chksqr[isqr][k]>1)
+     {
+      for(ii=0;ii<3;ii++)
+      {
+       for(jj=0;jj<3;jj++)
+	   {
+	    i=sqrc2r(isqr,ii);
+	    j=sqrc2c(isqr,jj);
+	    idx=9*i+j;
+        if (orig[idx]==0 && itemp[i][j]==k+1) 
+	    {
+	     sqrfail++;
+	    }	
+       }	  
+	  }	
+     } 	 
+    }
+   }
+   totalfail=rowfail+colfail+sqrfail;
+   if(totalfail>0)
+   {
+    document.getElementById("broadcastmsg").innerHTML = "Something is not right.  Please check your entries.";  
+   }
+   else 
+   {
+    finishps();
+   }
+  }
+}
+
+function svps()
+{
+ var avalength=Math.min(historylength, stacklength);
+ fillorder=new Array(81);
+ var numclues=0;
+ for (i=0;i<81;i++)
+ {
+  if (orig[i]!=0) 
+  {
+   fillorder[i]=0;
+   numclues++;
+  } 
+  else fillorder[i]=-1;
+ } 
+ var numfill=81-numclues;
+ fillnum=new Array();
+ fillcell=new Array();
+ for (i=1;i<=avalength;i++)
+ {
+  if (fillorder[historycellnumber[(historylength-i)%stacklength]]<0 && historyvalue[(historylength-i)%stacklength]!=document.getElementById('c'+historycellnumber[(historylength-i)%stacklength]).value) 
+  {
+   fillorder[historycellnumber[(historylength-i)%stacklength]]=81-numclues;
+   fillnum[80-numclues]=document.getElementById('c'+historycellnumber[(historylength-i)%stacklength]).value;
+   fillcell[80-numclues]=historycellnumber[(historylength-i)%stacklength];
+   numclues++;
+  }
+ }
+ var ntrack=numfill+numclues-81;
+ if (numclues<81) ntrack=33;
+ document.getElementById("subtfill").value=ntrack;
+ document.getElementById("sublseq").value=dcps;
+ document.getElementById("subfilln").value=fillnum;
+ document.getElementById("subfillc").value=fillcell;
+ document.getElementById("substep").value=step;
+ document.getElementById("submove").value=historylength;
+}
+
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+}
+
+var agt = navigator.userAgent.toLowerCase();
+var is_ff=(agt.indexOf("firefox") != -1);
+function rc2sqr(row,col)
+{
+ var nsquare;
+ nsquare=Math.floor(row/3)*3+Math.floor(col/3);
+ return nsquare;
+}
+
+function sqrc2r(square,srow)
+{
+ var row;
+ row=Math.floor(square/3)*3+srow;
+ return row;
+}
+
+function sqrc2c(square,scol)
+{
+ var col;
+ col=(square%3)*3+scol;
+ return col;
+}
+
+function band(row)
+{
+ var nband;
+ nband=Math.floor(row/3);
+ return nband;
+} 
+
+function stack(col)
+{
+ var nstack;
+ nstack=Math.floor(col/3);
+ return nstack;
+} 
+
+function validate_form(form)
+{
+ if (document.getElementById('puzzleno').value=="")
+ {
+  alert("Please enter a puzzle number.");
+  return false;
+ }
+ else
+ {
+  return true;
+ }
+}
+  
+function trackps(current_id)
+{
+ var dumclr=truecolor(document.getElementById('cell'+current_id).style.backgroundColor);
+ if (dcps.length>0) dcps=dcps+"/";
+ dcps=dcps+current_id+",";
+ if (dumclr!=oldbgcolor && ((dumclr!="#fffff0" && dumclr!="") || (oldbgcolor!="#fffff0" && oldbgcolor!="")))
+ {
+  if (dumclr==yellow) dcps=dcps+"y";
+  else if (dumclr==red) dcps=dcps+"r";
+  else if (dumclr==blue) dcps=dcps+"b";
+  else if (dumclr==green) dcps=dcps+"g";
+  else dcps=dcps+"w";
+ }
+ dcps=dcps+document.getElementById('c'+current_id).value.replace(/ /g,"");
+ if (document.getElementById('c'+current_id).className==smcls) dcps=dcps+"s";
+}
+
+function getCaretPos(ctrl)  //IE only
+{
+ var CaretPos=0;
+ ctrl.focus ();
+ var Sel=document.selection.createRange ();
+ Sel.moveStart('character',-ctrl.value.length);
+ CaretPos=Sel.text.length;
+ return(CaretPos);
+}
+
+function setCaretPos(ctrl, pos) //IE only
+{
+ if (ctrl.setSelectRange)
+ {
+  ctrl.focus();
+  ctrl.setSelectionRange(pos,pos);
+ }
+}
+
+function sfs(current_id) //change
+{
+ if ((document.getElementById('c'+current_id).value!=oldvalue || cellchanged==true || (numberselected>0 && numberselected<10)) && orig[current_id]==0 && current_id==oldcellnumber)
+ {
+  if ((document.getElementById('c'+current_id).value.length==1 && ((!pmmode) || spmautomode))|| document.getElementById('c'+current_id).value.length==0) //change
+  {
+   if (document.getElementById('c'+current_id).className!=ncls)   //changed 3/18/2013
+   {
+    document.getElementById('c'+current_id).className=ncls;
+    // IE 10 Support
+    if (/*@cc_on!@*/false && document.documentMode === 10 && document.selection) 
+    {
+	 var cpos=getCaretPos(document.getElementById('c'+current_id));
+     if (document.getElementById('c'+current_id).value.length>0) document.getElementById('c'+current_id).value=document.getElementById('c'+current_id).value; // added 3/18/2013
+	 else 
+	 {
+	  document.getElementById('c'+current_id).value=" ";
+	  document.getElementById('c'+current_id).value="";
+	 } 
+	 setCaretPos(document.getElementById('c'+current_id),cpos);
+	} 
+   }
+  }
+  else
+  {
+   if (document.getElementById('c'+current_id).className!=smcls) //changed 3/18/2013
+   {
+    document.getElementById('c'+current_id).className=smcls;
+    // IE Support
+    if (/*@cc_on!@*/false && document.documentMode === 10 && document.selection) 
+    {
+	 var cpos=getCaretPos(document.getElementById('c'+current_id));
+     document.getElementById('c'+current_id).value=document.getElementById('c'+current_id).value; // added 3/18/2013
+	 setCaretPos(document.getElementById('c'+current_id),cpos);
+	}
+   }	
+  }
+ }
+ if (current_id==oldcellnumber && (document.getElementById('c'+current_id).value!=oldvalue || (truecolor(document.getElementById('cell'+current_id).style.backgroundColor)!=oldbgcolor && ((truecolor(document.getElementById('cell'+current_id).style.backgroundColor)!=nobgclr &&  document.getElementById('cell'+current_id).style.backgroundColor!="") || (oldbgcolor!=nobgclr && oldbgcolor!=""))) || document.getElementById('c'+current_id).className!=oldfont) && (historylength==0 || (historylength>0 && (oldcellnumber!=historycellnumber[(historylength-1)%stacklength] || oldvalue!=historyvalue[(historylength-1)%stacklength] || oldbgcolor!=historybgcolor[(historylength-1)%stacklength] || oldfont!=historyfont[(historylength-1)%stacklength]))))  //change
+ {
+  if (step==0) document.getElementById('bundo').style.color="";
+  step++;
+  length2step[historylength%stacklength]=step;
+  historyvalue[historylength%stacklength]=oldvalue;
+  historybgcolor[historylength%stacklength]=oldbgcolor;
+  historyfont[historylength%stacklength]=oldfont;
+  historycellnumber[historylength%stacklength]=current_id;
+  historylength++;
+  if (rdstep>0) resetredo();
+  document.getElementById("broadcastmsg").innerHTML = "";
+  trackps(current_id);  
+  //set_bold_1(current_id,numberselected); 
+  if (shownmbr) countdg();
+ }
+ if (currmsg!="") 
+ {
+  document.getElementById("broadcastmsg").innerHTML=currmsg;
+  currmsg="";
+ }  
+ set_bold_1(current_id,numberselected); 
+ busy=0;
+ busy2=0;
+ cellchanged=false;
+}
+
+function hl(current_id)
+{
+  oldcellnumber=current_id;
+  oldvalue=document.getElementById('c'+current_id).value;
+  oldbgcolor=truecolor(document.getElementById('cell'+current_id).style.backgroundColor);
+  oldfont=document.getElementById('c'+current_id).className;
+  if (hlmode)
+  {
+   if (chlcolor=="")
+   {
+    //alert("Please select a color or uncheck the \"Highlight\" checkbox.");
+   }
+   else if (orig[current_id]==0) 
+   {   
+    document.getElementById('cell'+current_id).style.backgroundColor=chlcolor;
+	if (rcmode && related[current_id]) setclr(current_id);
+   }
+  }
+  if (numberselected!="0" && orig[current_id]==0)
+  {
+   if (numberselected==10)
+   {
+    document.getElementById('c'+current_id).value="";
+   }
+   else
+   {  
+    if (!pmmode)
+    {
+	 if (document.getElementById('c'+current_id).value==numberselected && document.getElementById('c'+current_id).className==ncls)
+	 {
+	  document.getElementById('c'+current_id).value="";
+	 }
+	 else if (document.getElementById('c'+current_id).className==smcls || document.getElementById('c'+current_id).value.length==0)
+	 {
+	  document.getElementById('c'+current_id).value=numberselected;
+	 }
+	 else if (document.getElementById('c'+current_id).value.length==1 && document.getElementById('c'+current_id).className==ncls && document.getElementById('c'+current_id).value!=numberselected)
+	 {
+	  currmsg ="This cell has been occupied.";
+	 }
+    }
+    else
+    {
+     //document.getElementById('c'+current_id).value=document.getElementById('c'+current_id).value.replace(/ /g,"");
+     pos=document.getElementById('c'+current_id).value.indexOf(numberselected);
+     if (pos<0) 
+     {
+	  clength=document.getElementById('c'+current_id).value.length;
+      if (clength==0)
+      {
+	   document.getElementById('c'+current_id).value=numberselected;
+	  }	 
+	  else
+	  {
+	   dumfound=0;
+	   for (i=clength-1;i>=0;i=i-1)
+	   {
+	    if (numberselected > document.getElementById('c'+current_id).value.substring(i,i+1))
+	    {
+         document.getElementById('c'+current_id).value=document.getElementById('c'+current_id).value.substring(0,i+1)+numberselected+document.getElementById('c'+current_id).value.substring(i+1,clength);
+		 dumfound=1;
+		 break;
+	    }
+	   } 
+       if (dumfound==0) document.getElementById('c'+current_id).value=numberselected+document.getElementById('c'+current_id).value;
+	  }
+	 } 
+     else
+     {
+	  if (pos==0)
+	  {
+	   document.getElementById('c'+current_id).value=document.getElementById('c'+current_id).value.substring(1);
+	  }
+	  else
+	  {
+	   leftstr=document.getElementById('c'+current_id).value.substring(0,pos);
+	   rightstr=document.getElementById('c'+current_id).value.substring(pos+1);
+	   document.getElementById('c'+current_id).value=leftstr+rightstr;
+	  }
+	 }
+    } 
+    setCursorAtEnd(current_id);
+   } 
+   //sfs(current_id);
+   //set_bold_1(current_id,numberselected);
+  }
+  sfs(current_id);
+  if (rcmode) showrc(current_id);
+  if (!fh && autochk) solved();
+}
+
+function old_setCursorAtEnd(current_id)
+{    
+ var oTextbox = document.getElementById('c'+current_id);    
+ if (oTextbox.createTextRange)
+ {        
+  var r = (oTextbox.createTextRange());        
+  r.moveStart('character', (oTextbox.value.length));        
+  r.collapse();        
+  r.select();    
+ }
+}
+
+function setCursorAtEnd(current_id) 
+{ 
+ var txt=document.getElementById('c'+current_id);  
+ if (txt.createTextRange) 
+ {   
+  //IE   
+  var FieldRange = txt.createTextRange();   
+  FieldRange.moveStart('character', txt.value.length);   
+  FieldRange.collapse();   
+  FieldRange.select();   
+ }   
+ else 
+ {   
+  //Firefox and Opera   
+  txt.focus();   
+  var length = txt.value.length;   
+  txt.setSelectionRange(length, length);   
+ }   
+}    
+
+function setCursorAtFront(current_id) 
+{ 
+ var txt=document.getElementById('c'+current_id);  
+ if (txt.createTextRange) 
+ {   
+  //IE   
+  var FieldRange = txt.createTextRange();   
+  FieldRange.collapse();   
+  FieldRange.moveStart('character', 0);   
+  FieldRange.moveEnd('character', 0);   
+  FieldRange.select();   
+ }   
+ else 
+ {   
+  //Firefox and Opera   
+  txt.focus();   
+  txt.setSelectionRange(0, 0);   
+ }   
+}    
+
+function c_bgcolor()
+{
+ var oldstep=step;
+ for(i=0;i<81;i++)
+ {
+  if(orig[i]==0 && truecolor(document.getElementById('cell'+i).style.backgroundColor)!='#fffff0' && document.getElementById('cell'+i).style.backgroundColor!='') 
+  {
+   step=oldstep+1;
+   length2step[historylength%stacklength]=step;
+   historyvalue[historylength%stacklength]=document.getElementById('c'+i).value;
+   historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+i).style.backgroundColor);
+   historyfont[historylength%stacklength]=document.getElementById('c'+i).className;
+   historycellnumber[historylength%stacklength]=i;
+   historylength++;
+   if (rdstep>0) resetredo();
+   document.getElementById('cell'+i).style.backgroundColor= nobgclr;
+   if (rcmode && related[i]) setclr(i);
+  } 
+ }
+ if (step!=oldstep)
+ {
+  if (dcps.length>0) dcps=dcps+"/";
+  dcps=dcps+"c";  
+ }
+}
+
+function convtp()
+{
+ var oldstep=step;
+ for (i=0;i<81;i++)
+ {
+  if (orig[i]==0 && document.getElementById('c'+i).value.length==1 && document.getElementById('c'+i).className==smcls)
+  {
+   step=oldstep+1;
+   length2step[historylength%stacklength]=step;
+   historyvalue[historylength%stacklength]=document.getElementById('c'+i).value;
+   historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+i).style.backgroundColor);
+   historyfont[historylength%stacklength]=document.getElementById('c'+i).className;
+   historycellnumber[historylength%stacklength]=i;
+   historylength++;
+   if (rdstep>0) resetredo();
+   document.getElementById('c'+i).className=ncls;
+   document.getElementById('c'+i).value=document.getElementById('c'+i).value;
+   set_bold_1(i,numberselected);
+  }
+ }
+ if (step!=oldstep)
+ {
+  if (dcps.length>0) dcps=dcps+"/";
+  dcps=dcps+"a";  
+ }
+ if (shownmbr) countdg();
+ if (!fh && autochk) solved();
+}
+
+function getSelectedItem(current_id) 
+{ 
+  var textComponent = document.getElementById('c'+current_id); 
+  var selectedText=""; 
+  // IE version 
+  if (document.selection != undefined) 
+  { 
+    textComponent.focus(); 
+    var sel = document.selection.createRange(); 
+    selectedText = sel.text; 
+  } 
+  // Mozilla version 
+  else if (textComponent.selectionStart != undefined) 
+  { 
+    var startPos = textComponent.selectionStart; 
+    var endPos = textComponent.selectionEnd; 
+    selectedText = textComponent.value.substring(startPos, endPos) 
+  } 
+  return selectedText;
+}
+
+function cn(evt,current_id)
+{
+ if (busy==1 || orig[current_id]!=0)
+ {
+  return false;
+ }
+ else
+ { 
+  busy=1; 
+  cellchanged=false;  
+  var charcode,chartyped;
+  if (!evt) evt=window.event;
+  charcode=evt.keyCode || evt.which;
+  chartyped=String.fromCharCode(charcode);
+  if (("123456789").indexOf(chartyped) > -1 || (charcode==8 || charcode==46)) 
+  {
+   var selecttxt=getSelectedItem(current_id);
+   var rmtext=document.getElementById('c'+current_id).value.replace(selecttxt,"");
+   if (charcode==8 || charcode==46) return true;  // changed 3/18/2013
+   /*{
+    if ((".").indexOf(chartyped)<0) return true;
+	else 
+	{
+	 if (is_ff && (document.getElementById('c'+current_id).selectionStart || document.getElementById('c'+current_id).selectionStart == '0'))
+     {
+      var CP = document.getElementById('c'+current_id).selectionStart;
+	  leftstr=document.getElementById('c'+current_id).value.substring(0,CP);
+	  rightstr=document.getElementById('c'+current_id).value.substring(CP+1);
+	  document.getElementById('c'+current_id).value=leftstr+rightstr;
+	  document.getElementById('c'+current_id).focus();
+	  document.getElementById('c'+current_id).setSelectionRange(CP,CP);
+     }
+	 return false;
+	}
+   }*/
+   else if (rmtext.indexOf(chartyped)>=0)
+   {
+	document.getElementById("broadcastmsg").innerHTML='The digit "'+chartyped+'" is already in the cell.';
+	return false;
+   }
+   else if (pmmode)
+   {
+    cellchanged=true;
+	return true; 
+   }
+   else if (!pmmode)
+   {
+    if (selecttxt.indexOf(chartyped)<0 && rmtext.length>=1)
+	{
+	 document.getElementById("broadcastmsg").innerHTML='Activate pencil mark mode to add additional digits.';
+	 return false;
+	}
+	else
+	{
+	 cellchanged=true;
+     return true;
+	} 
+   }
+   else
+   {
+	return false;
+   }   
+  }
+  else return false;
+ }
+} 
+
+function move(evt,current_id)
+{
+ if (busy2)
+ {
+  return false;  
+ }
+ else
+ {
+  busy2=1;
+  oldcellnumber=current_id;
+  oldvalue=document.getElementById('c'+current_id).value;
+  oldbgcolor=truecolor(document.getElementById('cell'+current_id).style.backgroundColor);
+  oldfont=document.getElementById('c'+current_id).className;
+  var CaretPos = 0;
+  // IE Support
+  if (document.selection) 
+  {
+   document.getElementById('c'+current_id).focus ();  //for textarea
+   var Sel = document.selection.createRange ();
+   var Sel2 = Sel.duplicate();
+   Sel2.moveToElementText(document.getElementById('c'+current_id));
+   CaretPos=-1;
+   while(Sel2.inRange(Sel))
+   {
+    Sel2.moveStart('character');
+	CaretPos++;
+   }	
+  }
+  // Firefox support
+  else if (document.getElementById('c'+current_id).selectionStart || document.getElementById('c'+current_id).selectionStart == '0')
+  {
+   CaretPos = document.getElementById('c'+current_id).selectionStart;
+  }
+  var charcode;
+  if (!evt) evt=window.event;
+  charcode=evt.keyCode || evt.which;
+	//left=37
+	//right=39
+	//up=38
+	//down=40
+  if ((charcode==8 || charcode==46) && orig[current_id]!=0 ) 
+  {
+   return false;
+  }   
+  else if (charcode==37)//left
+  {
+   if ((CaretPos==0 || CaretPos==1 || document.getElementById('c'+current_id).value.length==1) && current_id!=0)
+   {
+    tmp=current_id;
+    tmp--;
+    document.getElementById('c'+tmp).focus();
+    setCursorAtEnd(tmp);
+	if (rcmode) showrc(tmp);
+	return false;
+   }
+   else if (CaretPos>0) 
+   {/*
+    if (document.selection)
+    {
+	 document.getElementById('c'+current_id).focus ();
+     Sel.moveStart ('character', CaretPos-1);
+     Sel.moveEnd ('character', 0);
+     Sel.select ();
+	}
+	else */ if ( is_ff && (document.getElementById('c'+current_id).selectionStart || document.getElementById('c'+current_id).selectionStart == '0'))
+    {
+     document.getElementById('c'+current_id).selectionStart = CaretPos-1;
+     document.getElementById('c'+current_id).selectionEnd = CaretPos-1;
+     document.getElementById('c'+current_id).focus ();
+    }
+   }	
+  }
+  else if (charcode==39)//right
+  {
+   if (CaretPos>=(document.getElementById('c'+current_id).value.length-1) && current_id!=80)
+   {
+    tmp=current_id;
+    if (tmp!=80) tmp++;
+    if (is_ff) 
+	{
+     document.getElementById('c'+tmp).selectionStart =0;
+     document.getElementById('c'+tmp).selectionEnd =0;	
+	}
+    document.getElementById('c'+tmp).focus();
+    setCursorAtFront(tmp);
+	if (rcmode) showrc(tmp);
+	return false;
+   }
+   else if (is_ff && CaretPos<document.getElementById('c'+current_id).value.length && (document.getElementById('c'+current_id).selectionStart || document.getElementById('c'+current_id).selectionStart == '0'))
+   {
+    document.getElementById('c'+current_id).selectionStart = CaretPos+1;
+    document.getElementById('c'+current_id).selectionEnd = CaretPos+1;
+    document.getElementById('c'+current_id).focus ();
+   }
+  }
+  else if (charcode==38)//up
+  {
+   if (current_id>8)
+   {
+    tmp=current_id;
+    if (tmp>8) tmp=tmp-9;
+    document.getElementById('c'+tmp).focus();
+    setCursorAtEnd(tmp);
+	if (rcmode) showrc(tmp);
+   }
+  } 
+  else if (charcode==40)//down
+  {
+   if (current_id<72)
+   {
+    tmp=current_id;
+    if (tmp<72) tmp=tmp+9;
+    document.getElementById('c'+tmp).focus();
+    setCursorAtEnd(tmp);
+	if (rcmode) showrc(tmp);
+   }
+  }
+ }
+} 
+
+function clear_pencilmark()
+{
+ var oldstep=step;
+ for(i=0;i<81;i++)
+ {
+  if(document.getElementById('c'+i).className==smcls) 
+  {
+   step=oldstep+1;
+   length2step[historylength%stacklength]=step;
+   historyvalue[historylength%stacklength]=document.getElementById('c'+i).value;
+   historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+i).style.backgroundColor);
+   historyfont[historylength%stacklength]=document.getElementById('c'+i).className;
+   historycellnumber[historylength%stacklength]=i;
+   historylength++;
+   if (rdstep>0) resetredo();
+   document.getElementById('c'+i).value="";
+   document.getElementById('c'+i).className=ncls;
+  }   
+ }
+ if (step!=oldstep)
+ {
+  if (dcps.length>0) dcps=dcps+"/";
+  dcps=dcps+"p";  
+ }
+}
+
+function set_bold_1(id,inum)
+{
+ if (document.getElementById('c'+id).value!="" && document.getElementById('c'+id).value==inum && document.getElementById('c'+id).className!=smcls) //change
+ {
+  document.getElementById('c'+id).style.fontWeight="bold";
+  document.getElementById('c'+id).style.color="#0000ff";
+ } 
+ else
+ {
+  document.getElementById('c'+id).style.fontWeight="normal";    
+  document.getElementById('c'+id).style.color="#000000";
+ } 
+}
+
+function set_bold(inum)
+{
+   for (i=0;i<81;i++)
+   {
+    set_bold_1(i,inum);
+   }
+ }
+
+function set_bgcolor(current_id)
+{
+ if (current_id!=numberselected  || current_id==0)
+ {
+  document.getElementById('b'+numberselected).style.backgroundColor="";
+  if (numberselected>0)
+  {
+   document.getElementById('bn'+numberselected).style.color="#000000";
+   document.getElementById('bn'+numberselected).style.fontWeight="normal";
+   if (numberselected<10)
+   {
+    if (document.getElementById('nl'+numberselected).innerHTML>0) document.getElementById('nl'+numberselected).style.color="";
+    else document.getElementById('nl'+numberselected).style.color="#969696";
+   }
+  }
+  else document.getElementById('kbicon').className="kbimg";  
+  document.getElementById('b'+current_id).style.backgroundColor=sbuttoncolor;
+  if (current_id>0)
+  {
+   document.getElementById('bn'+current_id).style.color=nobgclr;
+   document.getElementById('bn'+current_id).style.fontWeight="bold";
+   if (current_id<10) document.getElementById('nl'+current_id).style.color="#eeeeee";
+  }
+  else document.getElementById('kbicon').className="kbimgo";
+  numberselected=current_id;
+  if (!fh) set_bold(numberselected);
+ }
+}
+
+function cc(current_id)
+{
+ if  (numberselected!=0)
+ {
+  if (document.getElementById('c'+current_id).value.indexOf(numberselected)<0 || ((!pmmode) && document.getElementById('c'+current_id).className==smcls) || orig[current_id]!=0)
+  {
+   switch (numberselected)
+   {
+    case 1:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr1').style.cursor;
+	 break;
+    case 2:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr2').style.cursor;
+	 break;
+    case 3:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr3').style.cursor;
+	 break;
+    case 4:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr4').style.cursor;
+	 break;
+    case 5:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr5').style.cursor;
+	 break;
+    case 6:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr6').style.cursor;
+	 break;
+    case 7:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr7').style.cursor;
+	 break;
+    case 8:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr8').style.cursor;
+	 break;
+    case 9:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr9').style.cursor;
+	 break;
+    case 10:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csrx').style.cursor;
+	 break;
+    default:
+     document.getElementById('c'+current_id).style.cursor="default";
+	 break;
+   }
+  } 
+  else
+  {
+   switch (numberselected)
+   {
+    case 1:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr1d').style.cursor;
+	 break;
+    case 2:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr2d').style.cursor;
+	 break;
+    case 3:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr3d').style.cursor;
+	 break;
+    case 4:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr4d').style.cursor;
+	 break;
+    case 5:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr5d').style.cursor;
+	 break;
+    case 6:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr6d').style.cursor;
+	 break;
+    case 7:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr7d').style.cursor;
+	 break;
+    case 8:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr8d').style.cursor;
+	 break;
+    case 9:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csr9d').style.cursor;
+	 break;
+    case 10:
+     document.getElementById('c'+current_id).style.cursor=document.getElementById('csrx').style.cursor;
+	 break;
+    default:
+     document.getElementById('c'+current_id).style.cursor="default";
+	 break;
+   }
+  } 
+ }
+ if (rcmode && rcmove) showrc(current_id);
+}
+
+function rc(current_id)
+{
+ document.getElementById('c'+current_id).style.cursor="default";
+ if (rcmode && rcmove) resetrcclr();
+}
+
+function undo()
+{
+ if (historylength>0)
+ {
+  var numcellsundo=0;
+  while(historylength-- >=0 && length2step[historylength%stacklength]==step)
+  {
+   numcellsundo++;
+   if (dcps.length>0 && numcellsundo==1) dcps=dcps+"/";
+   if (numcellsundo==1) dcps=dcps+"u;";
+   else dcps=dcps+";";
+   dcps=dcps+historycellnumber[historylength%stacklength]+',';
+   if (truecolor(document.getElementById('cell'+historycellnumber[historylength%stacklength]).style.backgroundColor)!=historybgcolor[historylength%stacklength] && ((truecolor(document.getElementById('cell'+historycellnumber[historylength%stacklength]).style.backgroundColor)!=nobgclr && document.getElementById('cell'+historycellnumber[historylength%stacklength]).style.backgroundColor!="") || (historybgcolor[historylength%stacklength]!=nobgclr && historybgcolor[historylength%stacklength]!="")))
+   {
+    if (historybgcolor[historylength%stacklength]==yellow) dcps=dcps+"y";
+    else if (historybgcolor[historylength%stacklength]==red) dcps=dcps+"r";
+    else if (historybgcolor[historylength%stacklength]==blue) dcps=dcps+"b";
+    else if (historybgcolor[historylength%stacklength]==green) dcps=dcps+"g";
+    else dcps=dcps+"w";  
+   }
+   dcps=dcps+historyvalue[historylength%stacklength];
+   if (historyvalue[historylength%stacklength].length==1 && historyfont[historylength%stacklength]==smcls) dcps=dcps+"s";
+   rdlength2step[rdhistorylength%stacklength]=rdstep+1;
+   rdhistorycellnumber[rdhistorylength%stacklength]=historycellnumber[historylength%stacklength];
+   rdhistoryfont[rdhistorylength%stacklength]=document.getElementById('c'+historycellnumber[historylength%stacklength]).className;
+   rdhistoryvalue[rdhistorylength%stacklength]=document.getElementById('c'+historycellnumber[historylength%stacklength]).value;
+   rdhistorybgcolor[rdhistorylength%stacklength]=truecolor(document.getElementById('cell'+historycellnumber[historylength%stacklength]).style.backgroundColor);
+   rdhistorylength++;
+   document.getElementById('c'+historycellnumber[historylength%stacklength]).className=historyfont[historylength%stacklength];   
+   document.getElementById('c'+historycellnumber[historylength%stacklength]).value=historyvalue[historylength%stacklength];
+   document.getElementById('cell'+historycellnumber[historylength%stacklength]).style.backgroundColor=historybgcolor[historylength%stacklength];
+   if (related[historycellnumber[historylength%stacklength]]) setclr(historycellnumber[historylength%stacklength]);
+  }
+  historylength++;
+  if (numcellsundo>0)
+  {
+   document.getElementById("broadcastmsg").innerHTML="";
+   step--;
+   set_bold(numberselected);
+   if (step==0) 
+   {
+    document.getElementById('bundo').style.color="#969696";
+    //document.getElementById("broadcastmsg").innerHTML="End of Undo stack.";
+   } 
+   if (rdstep==0) document.getElementById('bredo').style.color="";
+   rdstep++;
+  }
+  else if (historylength==0)
+  {
+   resetundo();
+   //alert("No more moves");
+  }
+  else if (historylength>0)
+  {
+   resetundo();
+   alert("The 'Undo' stack is empty.  Further previous moves cannot be reversed.");
+  }
+  if (shownmbr) countdg();
+ }
+}
+
+function redo()
+{
+ if (rdhistorylength>0)
+ {
+  var numcellsredo=0;
+  while(rdhistorylength-- >=0 && rdlength2step[rdhistorylength%stacklength]==rdstep)
+  {
+   numcellsredo++;
+   if (dcps.length>0 && numcellsredo==1) dcps=dcps+"/";
+   if (numcellsredo==1) dcps=dcps+"v;";
+   else dcps=dcps+";";
+   dcps=dcps+rdhistorycellnumber[rdhistorylength%stacklength]+',';
+   if (truecolor(document.getElementById('cell'+rdhistorycellnumber[rdhistorylength%stacklength]).style.backgroundColor)!=rdhistorybgcolor[rdhistorylength%stacklength] && ((truecolor(document.getElementById('cell'+rdhistorycellnumber[rdhistorylength%stacklength]).style.backgroundColor)!=nobgclr && document.getElementById('cell'+rdhistorycellnumber[rdhistorylength%stacklength]).style.backgroundColor!="") || (rdhistorybgcolor[rdhistorylength%stacklength]!=nobgclr && rdhistorybgcolor[rdhistorylength%stacklength]!="")))
+   {
+    if (rdhistorybgcolor[rdhistorylength%stacklength]==yellow) dcps=dcps+"y";
+    else if (rdhistorybgcolor[rdhistorylength%stacklength]==red) dcps=dcps+"r";
+    else if (rdhistorybgcolor[rdhistorylength%stacklength]==blue) dcps=dcps+"b";
+    else if (rdhistorybgcolor[rdhistorylength%stacklength]==green) dcps=dcps+"g";
+    else dcps=dcps+"w";  
+   }
+   dcps=dcps+rdhistoryvalue[rdhistorylength%stacklength];
+   if (rdhistoryvalue[rdhistorylength%stacklength].length==1 && rdhistoryfont[rdhistorylength%stacklength]==smcls) dcps=dcps+"s";
+   length2step[historylength%stacklength]=step+1;
+   historycellnumber[historylength%stacklength]=rdhistorycellnumber[rdhistorylength%stacklength];
+   historyfont[historylength%stacklength]=document.getElementById('c'+rdhistorycellnumber[rdhistorylength%stacklength]).className;
+   historyvalue[historylength%stacklength]=document.getElementById('c'+rdhistorycellnumber[rdhistorylength%stacklength]).value;
+   historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+rdhistorycellnumber[rdhistorylength%stacklength]).style.backgroundColor);
+   historylength++;
+   document.getElementById('c'+rdhistorycellnumber[rdhistorylength%stacklength]).className=rdhistoryfont[rdhistorylength%stacklength];
+   document.getElementById('c'+rdhistorycellnumber[rdhistorylength%stacklength]).value=rdhistoryvalue[rdhistorylength%stacklength];
+   document.getElementById('cell'+rdhistorycellnumber[rdhistorylength%stacklength]).style.backgroundColor=rdhistorybgcolor[rdhistorylength%stacklength];
+   if (related[rdhistorycellnumber[rdhistorylength%stacklength]]) setclr(rdhistorycellnumber[rdhistorylength%stacklength]); 
+  }
+  rdhistorylength++;
+  if (numcellsredo>0)
+  {
+   document.getElementById("broadcastmsg").innerHTML="";
+   rdstep--;
+   if (rdstep==0)
+   {
+    document.getElementById('bredo').style.color="#969696";
+    //document.getElementById("broadcastmsg").innerHTML="All moves have been redone.";
+   } 
+   set_bold(numberselected);
+   if (step==0) document.getElementById('bundo').style.color="";
+   step++;
+  }
+  else if (rdhistorylength==0)
+  {
+   //resetredo();
+   alert("No more moves");
+  }
+  else if (rdhistorylength>0)
+  {
+   resetredo();
+   alert("The 'Redo' stack is empty.  No more moves can be redone.");
+  }
+  if (shownmbr) countdg();
+ }
+}
+
+function gridps(dumid)
+{
+ id=forder[dumid];
+ document.getElementById('c'+id).readOnly=true;
+ document.getElementById('cell'+id).style.borderColor="#bbbbbb";
+ document.getElementById('c'+id).style.color="#c0c0c0";
+ document.getElementById('c'+id).style.fontWeight="normal";
+ if (orig[id]==0)
+ {
+  document.getElementById('cell'+id).style.backgroundColor="#f5f5f5";
+ }
+ else
+ {
+  document.getElementById('cell'+id).style.backgroundColor="#eaeaea";
+ } 
+}
+
+function finishps()
+{
+ fh=true;
+ msg="Congratulations!  You just solved this puzzle";
+ if (status==1) 
+ {
+  strtpause();
+  msg+=" in ";
+  if (min>60)
+  {
+   hr=Math.floor(min/60);
+   min=min%60;
+  }
+  else hr=0;
+  if (hr>0 && min<10)
+  {
+   dmin="0"+min;
+  }
+  else dmin=min;
+  if (hr>0) msg+=hr+":";
+  msg+=dmin+":"+dsec;
+ }   
+ var delayt=50;
+ for (i=0;i<=80;i++)
+ {
+  setTimeout("gridps("+i+")",delayt*i);
+ }
+ setTimeout("document.getElementById('broadcastmsg').innerHTML = msg+'.'",delayt*85);
+ for (i=0;i<=19;i++)
+ {
+  setTimeout("blink()",delayt*87+i*300);
+ }
+}
+
+function blink()
+{
+ if (colorToHex(document.getElementById('broadcastmsg').style.backgroundColor)=="#fefec0")
+ {
+    document.getElementById('broadcastmsg').style.backgroundColor="#fefef0";
+ }
+ else
+ {
+  document.getElementById('broadcastmsg').style.backgroundColor="#fefec0";
+ }
+}
+
+function resetredo()
+{
+ rdstep=0;
+ rdhistorylength=0;
+ document.getElementById("bredo").style.color="#969696";
+}
+
+function resetundo()
+{
+ step=0;
+ historylength=0;
+ document.getElementById("bundo").style.color="#969696";
+}
+
+function colorToHex(c) 
+{
+ var m = /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(c);
+ return m ? '#' + (1 << 24 | m[1] << 16 | m[2] << 8 | m[3]).toString(16).substr(1) : c;
+}
+
+function truecolor(c)
+{
+ var b=colorToHex(c);
+ if (b==hhlcolor) b=hlcolor;
+ else if (b==hnobgclr) b=nobgclr;
+ else if (b==hclueclr) b=clueclr;
+ else if (b==hgreen) b=green;
+ else if (b==hyellow) b=yellow;
+ else if (b==hred) b=red;
+ else if (b==hblue) b=blue;
+ return b;
+}
+
+function countdg()
+{
+ var ndigit=new Array(9,9,9,9,9,9,9,9,9);
+ for(idx=0;idx<81;idx++)
+ {
+  if (document.getElementById('c'+idx).value.length==1 && document.getElementById('c'+idx).className==ncls)
+  {
+   ndigit[document.getElementById('c'+idx).value-1]--;
+  } 
+ }
+ for (i=1;i<10;i++)
+ {
+  document.getElementById('nl'+i).innerHTML=ndigit[i-1];
+  if (i==numberselected) document.getElementById('nl'+i).style.color="#eeeeee";
+  else
+  {
+   if (ndigit[i-1]<=0) document.getElementById('nl'+i).style.color="#969696";
+   else document.getElementById('nl'+i).style.color="#006600";
+  } 
+ }
+}
+
+function togglepmmode()
+{
+ if (pmmode) 
+ {
+  pmmode=false;
+  document.getElementById('pmchkbox').className="chkbximg";
+  mclength=1;
+ } 
+ else 
+ {
+  pmmode=true;
+  document.getElementById('pmchkbox').className="checkedimg";
+  mclength=10;
+ }
+}
+
+function togglespm()
+{
+ if (spmautomode) 
+ {
+  spmautomode=false;
+  document.getElementById("spmchkbox").className="chkbximg";
+ } 
+ else 
+ {
+  spmautomode=true;
+  document.getElementById("spmchkbox").className="checkedimg";
+ }
+}
+
+function togglehlmode()
+{
+ if (hlmode) 
+ {
+  hlmode=false;
+  document.getElementById("hlchkbox").className="chkbximg";
+  resetclrpic();
+ } 
+ else 
+ {
+  hlmode=true;
+  document.getElementById("hlchkbox").className="checkedimg";
+  setclrpic();
+ }
+}
+
+function setclrpic()
+{
+ document.getElementById("cbx1").style.backgroundColor=chlcolor;
+ document.getElementById("cbx3").style.backgroundColor=chlcolor;
+ document.getElementById("cbx6").style.backgroundColor=chlcolor;
+ document.getElementById("cbx8").style.backgroundColor=chlcolor;
+}
+
+function resetclrpic()
+{
+ document.getElementById("cbx1").style.backgroundColor=yellow;
+ document.getElementById("cbx3").style.backgroundColor=nobgclr;
+ document.getElementById("cbx6").style.backgroundColor=red;
+ document.getElementById("cbx8").style.backgroundColor=nobgclr;
+}
+
+function clrpichoover()
+{
+ document.getElementById("cbx1").style.backgroundColor=yellow;
+ document.getElementById("cbx3").style.backgroundColor=blue;
+ document.getElementById("cbx6").style.backgroundColor=red;
+ document.getElementById("cbx8").style.backgroundColor=green;
+}
+
+function chghlclr(selectedclr)
+{
+ chlcolor=selectedclr;
+ setclrpic();
+}
+
+function togglercmode()
+{
+ if (rcmode) 
+ {
+  rcmode=false;
+  document.getElementById("rcchkbox").className="chkbximg";
+  if (!fh) resetrcclr();
+ } 
+ else 
+ {
+  rcmode=true;
+  document.getElementById("rcchkbox").className="checkedimg";
+ }
+}
+
+function showrc(id)
+{
+ var row=Math.floor(id/9);
+ var col=id%9;
+ var sqr=rc2sqr(row,col);
+ for (i=0;i<81;i++)
+ {
+  if (Math.floor(i/9)==row || (i%9)==col || rc2sqr(Math.floor(i/9),i%9)==sqr) {if (!related[i]) setclr(i);}
+  else if (related[i]) resetbgclr(i);
+ }
+}
+
+function resetrcclr()
+{
+ for (i=0;i<81;i++)
+ {
+  if (related[i]) resetbgclr(i);
+ }
+}
+
+function setclr(id)
+{
+ var dumclr=colorToHex(document.getElementById("cell"+id).style.backgroundColor);
+ if (orig[id]!=0)
+ {
+  document.getElementById("cell"+id).style.backgroundColor=hclueclr;
+ }
+ else if (dumclr==green) document.getElementById("cell"+id).style.backgroundColor=hgreen;
+ else if (dumclr==yellow) document.getElementById("cell"+id).style.backgroundColor=hyellow;
+ else if (dumclr==red) document.getElementById("cell"+id).style.backgroundColor=hred;
+ else if (dumclr==blue) document.getElementById("cell"+id).style.backgroundColor=hblue;
+ else if (dumclr==hlcolor) document.getElementById("cell"+id).style.backgroundColor=hhlcolor;
+ else if (dumclr=="" || dumclr==nobgclr) document.getElementById("cell"+id).style.backgroundColor=hnobgclr;
+ related[id]=true;
+}
+
+function resetbgclr(id)
+{
+ var dumclr=colorToHex(document.getElementById("cell"+id).style.backgroundColor);
+ if (orig[id]!=0)
+ {
+  document.getElementById("cell"+id).style.backgroundColor="";
+ }
+ else if (dumclr==hgreen) document.getElementById("cell"+id).style.backgroundColor=green;
+ else if (dumclr==hyellow) document.getElementById("cell"+id).style.backgroundColor=yellow;
+ else if (dumclr==hred) document.getElementById("cell"+id).style.backgroundColor=red;
+ else if (dumclr==hblue) document.getElementById("cell"+id).style.backgroundColor=blue;
+ else if (dumclr==hhlcolor) document.getElementById("cell"+id).style.backgroundColor=hlcolor;
+ else if (dumclr==hnobgclr) document.getElementById("cell"+id).style.backgroundColor=nobgclr;
+ related[id]=false;
+}
+
+function togglercmove()
+{
+ if (rcmove) 
+ {
+  rcmove=false;
+  document.getElementById("rcmovechkbox").className="chkbximg";
+  eraseCookie("rcmove");
+ } 
+ else 
+ {
+  rcmove=true;
+  document.getElementById("rcmovechkbox").className="checkedimg";
+  createCookie("rcmove","1",180);
+ }
+}
+
+function toggleacinit()
+{
+ if (acinitmode) 
+ {
+  acinitmode=false;
+  document.getElementById("acinitchkbox").className="chkbximg";
+  eraseCookie("acinit");
+ } 
+ else 
+ {
+  acinitmode=true;
+  document.getElementById("acinitchkbox").className="checkedimg";
+  createCookie("acinit","1",180);
+ }
+}
+
+h = ' -->';

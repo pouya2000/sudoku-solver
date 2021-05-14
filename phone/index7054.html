@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+    "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<!-- Mirrored from sudoku9x9.com/phone/?level=3 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:34:48 GMT -->
+<head>
+<title>Sudoku For Smartphones - Intermediate</title>
+<meta name="description" content="Optimized for smartphones or low resolution touchscreen devices.  Play free intermediate online Sudoku puzzles on your mobile devices."/>
+<meta name="keywords" content="intermediate sudoku, medium level sudoku, sudoku mobile, touch screen, smartphones"/>
+<meta name="viewport" content="width=480"/>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<link rel="stylesheet" type="text/css" href="css/pstd8.css"/>
+<script type="text/javascript" src="../mobile/l2/mplay4.html">
+</script>
+<script type="text/javascript" src="../mobile/l2/mtimer2.js"> 
+</script>
+<script type="text/javascript">
+//<![CDATA[
+function hideAddressBar()
+{
+  if(!window.location.hash)
+  {
+   /*if(document.height < window.outerHeight)
+   {
+    document.body.style.height = (window.outerHeight + 2) + 'px';
+   }*/
+   setTimeout( function(){ window.scrollTo(0, 1); }, 50 );
+  }
+}
+window.addEventListener("load", function(){ if(!window.pageYOffset){ hideAddressBar(); } } );
+window.addEventListener("orientationchange", hideAddressBar );
+//]]> 
+</script>
+<link rel="icon" href="../favicon.ico"/>
+<link rel="shortcut icon" href="../favicon.ico"/>
+<link rel="apple-touch-icon" sizes="57x57" href="../apple-touch-icon-57x57.png" /> 
+<link rel="apple-touch-icon" sizes="114x114" href="../apple-touch-icon-114x114.png" /> 
+<link rel="apple-touch-icon" sizes="72x72" href="../apple-touch-icon-72x72.png" /> 
+<link rel="apple-touch-icon" sizes="144x144" href="../apple-touch-icon-144x144.png" /> 
+</head>
+<body>
+<script type="text/javascript" src="../mobile/l2/msavepuzz2.js"> 
+</script>
+<script type="text/javascript">
+  hlcolor="#ffdd60";
+  chlcolor="#9aff67";
+  sbuttoncolor="#a0a033";
+  sbuttoncolorrgb="rgb(255, 255, 240)";
+  darkbuttoncolor="#ead8b3";
+  dbuttoncolor="#f0f6f0";
+  mobuttoncolor="#f2f299";
+  numberselected=0;
+  pmmode=false;
+  spmautomode=false;
+  hlmode=false;
+  dcmode="d";
+  rcmode=false;
+  rcmove=false;
+  cellselected=81;
+  finish=false;
+  tapcolor=sbuttoncolor/*"#ffcc30"*/;
+  cfcolor="#0000ff";
+  dfcolor=tapcolor;
+  nobgclr="#fffff0";
+  clueclr="#e3e3e3";
+  green="#9aff67";
+  yellow="#ffff77";
+  red="#ff8945";
+  blue="#45bfff";
+  hnobgclr="#fff8bc";
+  hclueclr="#f3efcb";
+  hgreen="#d6fa9a";
+  hyellow="#fffaa0";
+  hred="#ffcb8c";
+  hblue="#ece1ec";
+  hhlcolor="#ffed97";
+</script>
+<script type="text/javascript">
+  var orig=new Array(5,0,0,0,0,0,0,8,0,8,0,0,2,0,0,0,0,1,7,0,4,5,0,0,3,0,0,2,1,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,4,5,0,0,0,0,0,0,7,0,2,6,0,0,0,0,3,0,0,0,0,4,0,6,0,0,0,8,0,0,0);
+  var solution=new Array(5,3,1,9,6,7,4,8,2,8,9,6,2,4,3,7,5,1,7,2,4,5,8,1,3,9,6,2,1,5,7,3,9,6,4,8,9,4,8,6,5,2,1,3,7,6,7,3,8,1,4,5,2,9,4,8,9,1,7,5,2,6,3,1,5,2,3,9,6,8,7,4,3,6,7,4,2,8,9,1,5);</script>
+<div id="container">
+<div id="topad">
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- 468 x 60 image ad top (small screen) -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:468px;height:60px"
+     data-ad-client="ca-pub-1102313833018298"
+     data-ad-slot="2506555167"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+<div id="titlepic">
+<img src="img/title_phone.png" alt="Sudoku9x9.com for Phone" title="Sudoku9x9.com for Phone"/>
+</div>
+<div id="titletxt">
+<div class="fr"><h1>Sudoku For Phone</h1></div>
+<div class="clearfloat"></div>
+<div class="fl"><h2>Billions of Sudoku puzzles available online ...</h2></div>
+</div>
+<div class="clearfloat"></div>
+<div id="levelblock">
+<div class="navlist" onclick="window.location='index7e60.html?level=1'">
+<p><a href="index7e60.html?level=1" title="Very Easy" >Beginner</a></p>
+</div>
+<div class="navlist navlists" onclick="window.location='index6435.html?level=2'">
+<p><a href="index6435.html?level=2" title="Easy" >Easy</a></p>
+</div>
+<div class="navlist navlistm" id="current2" onclick="window.location='index7054.html?level=3'">
+<p><a href="index7054.html?level=3" title="Intermediate" >Medium</a></p>
+</div>
+<div class="navlist navlists" onclick="window.location='indexbd84.html?level=4'">
+<p><a href="indexbd84.html?level=4" title="Hard" >Hard</a></p>
+</div>
+<div class="navlist navlist2" onclick="window.location='indexa1f4.html?level=5'">
+<p><a href="indexa1f4.html?level=5" title="Very Hard" >Very Hard</a></p>
+</div><div class="clearfloat"></div>
+</div>
+<div id="puzzlenotitle"><p>L3:#125145778</p></div>
+<div id="bcmsg"><span id="broadcastmsg"></span></div>
+<div class="clearfloat"></div>
+<div id="content1">
+<div id="playtable">
+<div id="grid">
+<div id="outercell0" class="t1 bt2 btd clearfloat bl2 bld"><div id="cell0" class="cbdr bgdark"><p id="c0">5</p></div></div><div id="outercell1" class="t1 bt2 btd"><div id="cell1" class="cbdr bglight" onclick="if (!finish) clickcell(1)"><p id="c1"></p></div></div><div id="outercell2" class="t1 bt2 btd brd"><div id="cell2" class="cbdr bglight" onclick="if (!finish) clickcell(2)"><p id="c2"></p></div></div><div id="outercell3" class="t1 bt2 btd bl1 bld"><div id="cell3" class="cbdr bglight" onclick="if (!finish) clickcell(3)"><p id="c3"></p></div></div><div id="outercell4" class="t1 bt2 btd"><div id="cell4" class="cbdr bglight" onclick="if (!finish) clickcell(4)"><p id="c4"></p></div></div><div id="outercell5" class="t1 bt2 btd brd"><div id="cell5" class="cbdr bglight" onclick="if (!finish) clickcell(5)"><p id="c5"></p></div></div><div id="outercell6" class="t1 bt2 btd bl1 bld"><div id="cell6" class="cbdr bglight" onclick="if (!finish) clickcell(6)"><p id="c6"></p></div></div><div id="outercell7" class="t1 bt2 btd"><div id="cell7" class="cbdr bgdark"><p id="c7">8</p></div></div><div id="outercell8" class="t1 bt2 btd br2 brd"><div id="cell8" class="cbdr bglight" onclick="if (!finish) clickcell(8)"><p id="c8"></p></div></div><div id="outercell9" class="t1 clearfloat bl2 bld"><div id="cell9" class="cbdr bgdark"><p id="c9">8</p></div></div><div id="outercell10" class="t1"><div id="cell10" class="cbdr bglight" onclick="if (!finish) clickcell(10)"><p id="c10"></p></div></div><div id="outercell11" class="t1 brd"><div id="cell11" class="cbdr bglight" onclick="if (!finish) clickcell(11)"><p id="c11"></p></div></div><div id="outercell12" class="t1 bl1 bld"><div id="cell12" class="cbdr bgdark"><p id="c12">2</p></div></div><div id="outercell13" class="t1"><div id="cell13" class="cbdr bglight" onclick="if (!finish) clickcell(13)"><p id="c13"></p></div></div><div id="outercell14" class="t1 brd"><div id="cell14" class="cbdr bglight" onclick="if (!finish) clickcell(14)"><p id="c14"></p></div></div><div id="outercell15" class="t1 bl1 bld"><div id="cell15" class="cbdr bglight" onclick="if (!finish) clickcell(15)"><p id="c15"></p></div></div><div id="outercell16" class="t1"><div id="cell16" class="cbdr bglight" onclick="if (!finish) clickcell(16)"><p id="c16"></p></div></div><div id="outercell17" class="t1 br2 brd"><div id="cell17" class="cbdr bgdark"><p id="c17">1</p></div></div><div id="outercell18" class="t1 bb1 bbd clearfloat bl2 bld"><div id="cell18" class="cbdr bgdark"><p id="c18">7</p></div></div><div id="outercell19" class="t1 bb1 bbd"><div id="cell19" class="cbdr bglight" onclick="if (!finish) clickcell(19)"><p id="c19"></p></div></div><div id="outercell20" class="t1 bb1 bbd brd"><div id="cell20" class="cbdr bgdark"><p id="c20">4</p></div></div><div id="outercell21" class="t1 bb1 bbd bl1 bld"><div id="cell21" class="cbdr bgdark"><p id="c21">5</p></div></div><div id="outercell22" class="t1 bb1 bbd"><div id="cell22" class="cbdr bglight" onclick="if (!finish) clickcell(22)"><p id="c22"></p></div></div><div id="outercell23" class="t1 bb1 bbd brd"><div id="cell23" class="cbdr bglight" onclick="if (!finish) clickcell(23)"><p id="c23"></p></div></div><div id="outercell24" class="t1 bb1 bbd bl1 bld"><div id="cell24" class="cbdr bgdark"><p id="c24">3</p></div></div><div id="outercell25" class="t1 bb1 bbd"><div id="cell25" class="cbdr bglight" onclick="if (!finish) clickcell(25)"><p id="c25"></p></div></div><div id="outercell26" class="t1 bb1 bbd br2 brd"><div id="cell26" class="cbdr bglight" onclick="if (!finish) clickcell(26)"><p id="c26"></p></div></div><div id="outercell27" class="t1 btd clearfloat bl2 bld"><div id="cell27" class="cbdr bgdark"><p id="c27">2</p></div></div><div id="outercell28" class="t1 btd"><div id="cell28" class="cbdr bgdark"><p id="c28">1</p></div></div><div id="outercell29" class="t1 btd brd"><div id="cell29" class="cbdr bglight" onclick="if (!finish) clickcell(29)"><p id="c29"></p></div></div><div id="outercell30" class="t1 btd bl1 bld"><div id="cell30" class="cbdr bglight" onclick="if (!finish) clickcell(30)"><p id="c30"></p></div></div><div id="outercell31" class="t1 btd"><div id="cell31" class="cbdr bglight" onclick="if (!finish) clickcell(31)"><p id="c31"></p></div></div><div id="outercell32" class="t1 btd brd"><div id="cell32" class="cbdr bgdark"><p id="c32">9</p></div></div><div id="outercell33" class="t1 btd bl1 bld"><div id="cell33" class="cbdr bglight" onclick="if (!finish) clickcell(33)"><p id="c33"></p></div></div><div id="outercell34" class="t1 btd"><div id="cell34" class="cbdr bglight" onclick="if (!finish) clickcell(34)"><p id="c34"></p></div></div><div id="outercell35" class="t1 btd br2 brd"><div id="cell35" class="cbdr bglight" onclick="if (!finish) clickcell(35)"><p id="c35"></p></div></div><div id="outercell36" class="t1 clearfloat bl2 bld"><div id="cell36" class="cbdr bgdark"><p id="c36">9</p></div></div><div id="outercell37" class="t1"><div id="cell37" class="cbdr bglight" onclick="if (!finish) clickcell(37)"><p id="c37"></p></div></div><div id="outercell38" class="t1 brd"><div id="cell38" class="cbdr bglight" onclick="if (!finish) clickcell(38)"><p id="c38"></p></div></div><div id="outercell39" class="t1 bl1 bld"><div id="cell39" class="cbdr bglight" onclick="if (!finish) clickcell(39)"><p id="c39"></p></div></div><div id="outercell40" class="t1"><div id="cell40" class="cbdr bglight" onclick="if (!finish) clickcell(40)"><p id="c40"></p></div></div><div id="outercell41" class="t1 brd"><div id="cell41" class="cbdr bglight" onclick="if (!finish) clickcell(41)"><p id="c41"></p></div></div><div id="outercell42" class="t1 bl1 bld"><div id="cell42" class="cbdr bglight" onclick="if (!finish) clickcell(42)"><p id="c42"></p></div></div><div id="outercell43" class="t1"><div id="cell43" class="cbdr bglight" onclick="if (!finish) clickcell(43)"><p id="c43"></p></div></div><div id="outercell44" class="t1 br2 brd"><div id="cell44" class="cbdr bglight" onclick="if (!finish) clickcell(44)"><p id="c44"></p></div></div><div id="outercell45" class="t1 bb1 bbd clearfloat bl2 bld"><div id="cell45" class="cbdr bglight" onclick="if (!finish) clickcell(45)"><p id="c45"></p></div></div><div id="outercell46" class="t1 bb1 bbd"><div id="cell46" class="cbdr bglight" onclick="if (!finish) clickcell(46)"><p id="c46"></p></div></div><div id="outercell47" class="t1 bb1 bbd brd"><div id="cell47" class="cbdr bglight" onclick="if (!finish) clickcell(47)"><p id="c47"></p></div></div><div id="outercell48" class="t1 bb1 bbd bl1 bld"><div id="cell48" class="cbdr bglight" onclick="if (!finish) clickcell(48)"><p id="c48"></p></div></div><div id="outercell49" class="t1 bb1 bbd"><div id="cell49" class="cbdr bglight" onclick="if (!finish) clickcell(49)"><p id="c49"></p></div></div><div id="outercell50" class="t1 bb1 bbd brd"><div id="cell50" class="cbdr bgdark"><p id="c50">4</p></div></div><div id="outercell51" class="t1 bb1 bbd bl1 bld"><div id="cell51" class="cbdr bgdark"><p id="c51">5</p></div></div><div id="outercell52" class="t1 bb1 bbd"><div id="cell52" class="cbdr bglight" onclick="if (!finish) clickcell(52)"><p id="c52"></p></div></div><div id="outercell53" class="t1 bb1 bbd br2 brd"><div id="cell53" class="cbdr bglight" onclick="if (!finish) clickcell(53)"><p id="c53"></p></div></div><div id="outercell54" class="t1 btd clearfloat bl2 bld"><div id="cell54" class="cbdr bglight" onclick="if (!finish) clickcell(54)"><p id="c54"></p></div></div><div id="outercell55" class="t1 btd"><div id="cell55" class="cbdr bglight" onclick="if (!finish) clickcell(55)"><p id="c55"></p></div></div><div id="outercell56" class="t1 btd brd"><div id="cell56" class="cbdr bglight" onclick="if (!finish) clickcell(56)"><p id="c56"></p></div></div><div id="outercell57" class="t1 btd bl1 bld"><div id="cell57" class="cbdr bglight" onclick="if (!finish) clickcell(57)"><p id="c57"></p></div></div><div id="outercell58" class="t1 btd"><div id="cell58" class="cbdr bgdark"><p id="c58">7</p></div></div><div id="outercell59" class="t1 btd brd"><div id="cell59" class="cbdr bglight" onclick="if (!finish) clickcell(59)"><p id="c59"></p></div></div><div id="outercell60" class="t1 btd bl1 bld"><div id="cell60" class="cbdr bgdark"><p id="c60">2</p></div></div><div id="outercell61" class="t1 btd"><div id="cell61" class="cbdr bgdark"><p id="c61">6</p></div></div><div id="outercell62" class="t1 btd br2 brd"><div id="cell62" class="cbdr bglight" onclick="if (!finish) clickcell(62)"><p id="c62"></p></div></div><div id="outercell63" class="t1 clearfloat bl2 bld"><div id="cell63" class="cbdr bglight" onclick="if (!finish) clickcell(63)"><p id="c63"></p></div></div><div id="outercell64" class="t1"><div id="cell64" class="cbdr bglight" onclick="if (!finish) clickcell(64)"><p id="c64"></p></div></div><div id="outercell65" class="t1 brd"><div id="cell65" class="cbdr bglight" onclick="if (!finish) clickcell(65)"><p id="c65"></p></div></div><div id="outercell66" class="t1 bl1 bld"><div id="cell66" class="cbdr bgdark"><p id="c66">3</p></div></div><div id="outercell67" class="t1"><div id="cell67" class="cbdr bglight" onclick="if (!finish) clickcell(67)"><p id="c67"></p></div></div><div id="outercell68" class="t1 brd"><div id="cell68" class="cbdr bglight" onclick="if (!finish) clickcell(68)"><p id="c68"></p></div></div><div id="outercell69" class="t1 bl1 bld"><div id="cell69" class="cbdr bglight" onclick="if (!finish) clickcell(69)"><p id="c69"></p></div></div><div id="outercell70" class="t1"><div id="cell70" class="cbdr bglight" onclick="if (!finish) clickcell(70)"><p id="c70"></p></div></div><div id="outercell71" class="t1 br2 brd"><div id="cell71" class="cbdr bgdark"><p id="c71">4</p></div></div><div id="outercell72" class="t1 bb2 bbd clearfloat bl2 bld"><div id="cell72" class="cbdr bglight" onclick="if (!finish) clickcell(72)"><p id="c72"></p></div></div><div id="outercell73" class="t1 bb2 bbd"><div id="cell73" class="cbdr bgdark"><p id="c73">6</p></div></div><div id="outercell74" class="t1 bb2 bbd brd"><div id="cell74" class="cbdr bglight" onclick="if (!finish) clickcell(74)"><p id="c74"></p></div></div><div id="outercell75" class="t1 bb2 bbd bl1 bld"><div id="cell75" class="cbdr bglight" onclick="if (!finish) clickcell(75)"><p id="c75"></p></div></div><div id="outercell76" class="t1 bb2 bbd"><div id="cell76" class="cbdr bglight" onclick="if (!finish) clickcell(76)"><p id="c76"></p></div></div><div id="outercell77" class="t1 bb2 bbd brd"><div id="cell77" class="cbdr bgdark"><p id="c77">8</p></div></div><div id="outercell78" class="t1 bb2 bbd bl1 bld"><div id="cell78" class="cbdr bglight" onclick="if (!finish) clickcell(78)"><p id="c78"></p></div></div><div id="outercell79" class="t1 bb2 bbd"><div id="cell79" class="cbdr bglight" onclick="if (!finish) clickcell(79)"><p id="c79"></p></div></div><div id="outercell80" class="t1 bb2 bbd br2 brd"><div id="cell80" class="cbdr bglight" onclick="if (!finish) clickcell(80)"><p id="c80"></p></div></div><div class="clearfloat"></div>
+</div>
+<div id="digitcell"  onclick="tap('digitcell');toggledcmode();" title="Switch between Digit First mode and Cell First mode">
+<div id="dcchkbx">
+<div class="outchkbox"><div class="inchkbox"><div class="checkedimg" id="dcchkbox"></div></div></div>
+</div>
+<div id="dctxt">
+<p id="dcvalue">Digit First</p>
+</div>
+</div>
+<div id="bundo" class="idone" onclick="if (!finish) {tap('bundo');undo();}">
+<p>Undo</p>
+</div>
+<div id="bredo" class="idone" onclick="if (!finish) {tap('bredo');redo();}">
+<p>Redo</p>
+</div>
+<div id="btimer" class="idone" onclick="if (!finish) {tap('btimer');strtpause();}" title="Timer (click to start/stop)">
+<p id="time2"></p>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div id="numberoption">
+<div class="picknumber" id="b1" onmousedown="clickdigit(1)">
+<div class="nmtxt"><p id="bn1">1</p></div>
+<div class="nmleft"><p id="nl1"></p></div>
+</div>
+<div class="picknumber" id="b2" onmousedown="clickdigit(2)">
+<div class="nmtxt"><p id="bn2">2</p></div>
+<div class="nmleft"><p id="nl2"></p></div>
+</div>
+<div class="picknumber" id="b3" onmousedown="clickdigit(3)">
+<div class="nmtxt"><p id="bn3">3</p></div>
+<div class="nmleft"><p id="nl3"></p></div>
+</div>
+<div class="picknumber" id="b4" onmousedown="clickdigit(4)">
+<div class="nmtxt"><p id="bn4">4</p></div>
+<div class="nmleft"><p id="nl4"></p></div>
+</div>
+<div class="picknumber" id="b5" onmousedown="clickdigit(5)">
+<div class="nmtxt"><p id="bn5">5</p></div>
+<div class="nmleft"><p id="nl5"></p></div>
+</div>
+<div class="picknumber" id="b6" onmousedown="clickdigit(6)">
+<div class="nmtxt"><p id="bn6">6</p></div>
+<div class="nmleft"><p id="nl6"></p></div>
+</div>
+<div class="picknumber" id="b7" onmousedown="clickdigit(7)">
+<div class="nmtxt"><p id="bn7">7</p></div>
+<div class="nmleft"><p id="nl7"></p></div>
+</div>
+<div class="picknumber" id="b8" onmousedown="clickdigit(8)">
+<div class="nmtxt"><p id="bn8">8</p></div>
+<div class="nmleft"><p id="nl8"></p></div>
+</div>
+<div class="picknumber" id="b9" onmousedown="clickdigit(9)">
+<div class="nmtxt"><p id="bn9">9</p></div>
+<div class="nmleft"><p id="nl9"></p></div>
+</div>
+<div class="picknumber" id="b10" onmousedown="clickdigit(10)">
+<div class="nmtxt"><p id="bn10">X</p></div>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div class="clearfloat"></div>
+<div id="content2">
+<div id="pencil" onclick="togglepmmode();" title="Pencil Mark mode">
+<div id="chkbxpn" >
+<div class="outchkbox"><div class="inchkbox"><div class="chkbximg" id="pmchkbox"></div></div></div>
+</div>
+<div id="pencilpic">
+</div>
+</div>
+<div id="cpencilpic" onclick="if (!finish) clear_pencilmark();" title="Clear all Pencil Marks">
+</div>
+<div id="convp" title="Convert all Single Digit Pencil Marks into Regular Entries" onclick="if (!finish) convtp();">
+</div>
+<div id="autoconv" onclick="togglespm()" title="Automatically convert single digit pencil marks into regular entries">
+<div id="acchkbx">
+<div class="outchkbox"><div class="inchkbox"><div class="chkbximg" id="spmchkbox"></div></div></div>
+</div>
+<div id="actxt"><p>Auto</p></div>
+</div>
+<div id="relatecells" onclick="if (!finish) togglercmode();">
+<div id="chkbxrc">
+<div class="outchkbox"><div class="inchkbox"><div class="chkbximg" id="rcchkbox"></div></div></div>
+</div>
+<div id="relatedpic">
+</div>
+<div class="clearfloat"></div>
+</div>
+</div>
+<div class="clearfloat"></div>
+<div id="content3">
+<div id="colorbox" onclick='togglehlmode();' title="Background Highlight mode">
+<div id="chkbxclr">
+<div class="outchkbox"><div class="inchkbox"><div class="chkbximg" id="hlchkbox"></div></div></div>
+</div>
+<div id="colorpic">
+<div id="cbx1" class="cbxt"></div><div id="cbx2" class="cbxt"></div><div id="cbx3" class="cbxt"></div><div id="cbx4" class="cbxt cbxr"></div><div id="cbx5" class="cbxb"></div><div id="cbx6" class="cbxb"></div><div id="cbx7" class="cbxb"></div><div id="cbx8" class="cbxb cbxr"></div>
+<div class="clearfloat"></div>
+</div>
+</div>
+<div id="chgcolor">
+<div class="cboxclr" id="cbox1" title="Green" onclick="if (hlmode) chghlclr(green);"></div>
+<div class="cboxclr" id="cbox2" title="Yellow" onclick="if (hlmode) chghlclr(yellow);"></div>
+<div class="cboxclr" id="cbox3" title="Red" onclick="if (hlmode) chghlclr(red);"></div>
+<div class="cboxclr" id="cbox4" title="Blue" onclick="if (hlmode) chghlclr(blue);"></div>
+<div class="cboxclr" id="cbox5" title="Remove a highlight" onclick="if (hlmode) chghlclr(nobgclr);"></div>
+</div>
+<div id="ccolorpic" onclick="if (!finish) c_bgcolor();" title="Clear all highlights">
+</div>
+</div>
+<div class="clearfloat"></div>
+<div id="content4">
+<form name="how2solve" method="post" action="https://sudoku9x9.com/howtosolve.php" target="_blank"><input type="hidden" name="slvl" value="3"><input type="hidden" name="pzno" value="125145778"></form>
+<div id="reset" class="igen" onclick="tap('reset');restart_puzzle();" title="Restart">
+<p>Restart</p>
+</div>
+<div id="solution" class="igen" onclick="tap('solution');document.forms['how2solve'].submit();" title="Solve this puzzle step by step">
+<p>How to Solve</p>
+</div>
+<div id="current_status" class="igen" onclick="if (!finish) {tap('current_status');chk_playmoves();}" title="Check current entries">
+<p>Check</p>
+</div>
+<div id="npuzz" onclick="tap('npuzz');window.location='index.html'" title="Get a new puzzle">
+<p><a href="index.html">New Puzzle</a></p>
+</div>
+</div>
+<div class="clearfloat"></div>
+<div id="content5">
+<div id="savep">
+<a title="Save the current puzzle" href="javascript:savepuzzland(curgame);">Save</a>
+</div>
+<div id="savegame">
+<span id="savedgnum"></span>&nbsp;<a title="Reload" href="javascript:rlpuzz(slevel)">Reload</a>&nbsp;<a title="Delete" href="javascript:delpuzzland()">Delete</a> 
+</div> 
+<div id="flink">
+<p><a href="../tablet/index.html" title="sudoku for tablets">Tablet</a> <a href="../privacy_policy.html" title="privacy policy">Privacy</a></p>
+</div>
+</div>
+<div class="clearfloat"></div>
+<div id="cpy">
+<p><a href="expert.html" title="More extremely difficult puzzles">Expert Area</a></p>
+<p>&copy;2021 sudoku9x9.com</p>
+</div>
+</div>
+<div id="rsltbox">
+<div id="rsltmsg">
+<p id="msg1"></p>
+<p id="msg2"></p>
+</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+curgame="L3:#125145778";curlvl=3;document.getElementById("savedgnum").innerHTML ="L3:#125145778";document.getElementById("savegame").style.display="none";slevel=3;  resetundo();
+  resetredo();
+  document.getElementById("broadcastmsg").innerHTML = "";  
+  document.getElementById('time2').innerHTML = "0:00";
+  step=0;
+  historylength=0;
+  stacklength=1000;
+  length2step=new Array(stacklength);
+  historybgcolor=new Array(stacklength);
+  historyvalue=new Array(stacklength);
+  historycellnumber=new Array(stacklength);
+  historypm=new Array(stacklength);
+  oldvalue="";
+  oldbgcolor="";
+  oldcellnumber="";
+  oldpm=false;
+  rdstep=0;
+  rdhistorylength=0;
+  rdlength2step=new Array(stacklength);
+  rdhistorybgcolor=new Array(stacklength);
+  rdhistoryvalue=new Array(stacklength);
+  rdhistorycellnumber=new Array(stacklength);
+  rdhistorypm=new Array(stacklength);
+  currmsg="";
+  pmark=new Array(81);
+  related=new Array(81);
+  for (i=0;i<81;i++)
+  {
+   pmark[i]=false; 
+   related[i]=false;   
+  }
+  clevel=3;
+  cpno=125145778;
+    countdg();
+  forder=new Array(
+  72,73,74,75,76,77,78,79,80,63,64,65,66,67,68,69,70,71,54,55,56,57,58,59,60,61,62,45,46,47,48,49,50,51,52,53,36,37,38,39,40,41,42,43,44,27,28,29,30,31,32,33,34,35,18,19,20,21,22,23,24,25,26,9,10,11,12,13,14,15,16,17,0,1,2,3,4,5,6,7,8);
+//]]> 
+</script>
+</body>
+
+<!-- Mirrored from sudoku9x9.com/phone/?level=3 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:34:49 GMT -->
+</html>
+

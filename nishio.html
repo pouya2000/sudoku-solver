@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<!-- Mirrored from sudoku9x9.com/nishio.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:34:26 GMT -->
+<head>
+<title>Nishio - Sudoku Solving Techniques</title>
+<meta name="description" content="A description of Nishio - an advanced Sudoku solving technique.">
+<meta name="keywords" content="Nishio, Sudoku tips, Sudoku solving techniques, advanced, How to solve Sudoku puzzles, sudoku, 9x9">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="css/bstd7.css">
+<link rel="icon" href="favicon.ico">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<body>
+<div id="container">
+<div id="header">
+<div id="headerl">
+<div id="titlepic">
+<a href="index.html"><img src="img/title_small.png" alt="Sudoku 9x9.com" title="Sudoku 9x9.com"></a>
+</div>
+</div>
+<div id="headerr">
+<div id="title">
+<h1>Technique: Nishio</h1>
+</div>
+<div id="hnavigator">
+<div class="mainnav">
+<p><a href="index.html">Free Online Sudoku</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_daily_9x9.html">Daily Sudoku</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_blank_grid_9x9.html">Blank Grid</a></p>
+</div>
+<div class="mainnav">
+<p><a href="smartsolver.html">Sudoku Solver</a></p>
+</div>
+<div class="mainnav" id="active">
+<p><a href="sudoku_solving_techniques_9x9.html">Solving Techniques</a></p>
+</div>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div id="technique">
+<h2>Sudoku Solving Techniques</h2>
+<h3>Nishio</h3>
+<p>The logic behind Nishio is just like the proof by contradiction method in mathematics.  Suppose an undetermined cell is digit "k" say.  If this assumption leads to a contradiction, then we can confirm that this assumption is incorrect.  As a result this cell cannot be "k" and it can be removed from the cell as a candidate.</p>
+<p>Consider the following Sudoku puzzle:</p>
+<div>
+<img src="img/nisho1.png" alt="a Sudoku puzzle using Nishio technique" class="fleft">
+<div class="inside_ad">
+<script async src="../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- 336x280, new image ad in text created 1/19/11 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-1102313833018298"
+     data-ad-slot="0361750879"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+</div>
+<div class="clearfloat">
+<p>The red cell has two digits 7 and 9 as candidates.  Let us suppose that this red cell is 9.</p>  
+<ul class="technique">
+<li>Step A: Suppose that the red cell is 9.</li>
+<li>Step B: The red cell cannot be 7 (it is 9 already) and the blue cell cannot be 9 (the red cell in the same column is 9).</li>
+<li>Step C: The yellow cell must be 7 (the only cell that can host 7 in its corresponding 3x3 square) and the pink cell must be 9 (the only cell that can host 9 in row 4).</li>
+<li>Step D: The green cell cannot be 7 (the yellow cell in the same row is 7).  Also it cannot be 9 neither (the pink cell in the same column is 9).</li>
+</ul>
+<p>Now you can see that the green cell has no candidates left and that should not happen in any circumstances.  Therefore our assumption that the red cell is 9 is incorrect and it can be safely removed from the red cell as a candidate.</p>
+</div>
+</div>
+<div id="techniques_link">
+<a href="forcing_chain.html">Previous</a> | <a href="sudoku_solving_techniques_9x9.html">List</a>
+</div>
+<div id="footer">
+<p>
+<a class="flink1" href="sudoku_rules.html">Sudoku Rules</a>
+<a class="flink1" href="privacy_policy.html" rel="nofollow">Privacy Policy</a>
+<a class="flink1" href="contact_sudoku_9x9.html" rel="nofollow">Contact Us</a>
+</p>
+<div id="smalltext">
+Copyright &copy; 2009-<span id="yr"></span> Sudoku9x9.com - All Rights Reserved.
+</div>
+</div>
+</div>
+<script type="text/javascript">
+var d=new Date();
+document.getElementById("yr").innerHTML=d.getFullYear()+" ";
+</script>
+</body>
+
+<!-- Mirrored from sudoku9x9.com/nishio.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:34:26 GMT -->
+</html>
+

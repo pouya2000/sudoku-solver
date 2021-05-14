@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<!-- Mirrored from sudoku9x9.com/coloring.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:34:25 GMT -->
+<head>
+<title>Coloring - Sudoku Solving Techniques</title>
+<meta name="description" content="A description of Coloring - an advanced Sudoku solving technique.">
+<meta name="keywords" content="Coloring, Sudoku tips, Sudoku solving techniques, advanced, How to solve Sudoku puzzles, sudoku, 9x9">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="css/bstd7.css">
+<link rel="icon" href="favicon.ico">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<body>
+<div id="container">
+<div id="header">
+<div id="headerl">
+<div id="titlepic">
+<a href="index.html"><img src="img/title_small.png" alt="Sudoku 9x9.com" title="Sudoku 9x9.com"></a>
+</div>
+</div>
+<div id="headerr">
+<div id="title">
+<h1>Technique: Coloring</h1>
+</div>
+<div id="hnavigator">
+<div class="mainnav">
+<p><a href="index.html">Free Online Sudoku</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_daily_9x9.html">Daily Sudoku</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_blank_grid_9x9.html">Blank Grid</a></p>
+</div>
+<div class="mainnav">
+<p><a href="smartsolver.html">Sudoku Solver</a></p>
+</div>
+<div class="mainnav" id="active">
+<p><a href="sudoku_solving_techniques_9x9.html">Solving Techniques</a></p>
+</div>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div id="technique">
+<h2>Sudoku Solving Techniques</h2>
+<h3>Coloring</h3>
+<p>If a digit is a candidate for exactly two cells in a row, in a column or in a 3x3 box, then this Coloring technique may be very powerful to make decisions to eliminate a candidata from a cell or to confirm a digit for a cell.</p>
+<p>Consider the following Sudoku puzzle:</p>
+<div>
+<img src="img/coloring1.png" alt="a Sudoku puzzle using Coloring technique" class="fleft">
+<div class="inside_ad">
+<script async src="../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- 336x280, new image ad in text created 1/19/11 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-1102313833018298"
+     data-ad-slot="0361750879"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+</div>
+<div class="clearfloat">
+<p>In the upper middle 3x3 box of this puzzle, the digit 1 is a candidate for exactly two cells (both marked by an "*") in that box.  So there are two possible pisitions for the digit 1 in this 3x3 box.  Let us follow the paths of these two cases:</p>  
+<ol class="technique">
+<li>If the first case is true, then the first yellow cell marked by an "*" is 1.  The second yellow cell must be 4 since it will be the only place that the digit 4 can go in this 3x3 box.  The third yellow cell that shares the common row with the second yellow cell must be 6.  Now we can see that the blue cell that shares the common column with the third yellow cell cannot be 6.</li>
+<li>If the second case is true, then the first green cell marked by an "*" is 1.  The second green cell that shares the common column with the first green cell must be 6.  Now we can see the blue cell that shares the common row with the second green cell cannot be 6.</li>
+</ol>
+<p>In either case, the blue cell cannot be 6.  Therefore the digit 6 can be safely eliminated as a candidate from the blue cell.</p>
+<p>The example above shows how we can eliminate a candidate from a cell.  Actually this technique can also help to confirm a digit for a cell.  Look at the following puzzle:</p>
+</div>
+<div>
+<img src="img/coloring2.png" alt="another Sudoku puzzle using Coloring technique" class="fright">
+<div class="inside_ad2">
+<script async src="../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- 336x280, new new text ad in text created 2/26/11 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-1102313833018298"
+     data-ad-slot="0247031286"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+</div>
+<div class="clearfloat">
+<p>In the upper middle 3x3 box of this puzzle, the digit 2 is a candidate for exactly two cells (both marked by an "*") in that box.  So there are two possible pisitions for the digit 2 in this 3x3 box.  Let us follow the paths of these two cases:</p>  
+<ol class="technique">
+<li>If the first case is true, then the first yellow cell marked by an "*" is 2.  Then the blue cell that shares the common 3x3 box with the yellow cell must be 7 since it will be the only place that the digit 7 can go in this 3x3 box.</li>
+<li>If the second case is true, then the first green cell marked by an "*" is 2.  The second green cell that shares the common column with the first green cell must be 4.  The third green cell that shares the common row with the second green cell must be 7.  Then the fourth green cell that shares the common column with the third green cell cannot be 7.  Now we can see the blue cell that shares the common row with the fourth green cell must be 7 since it is the only place the digit 7 can go in this row.</li>
+</ol>
+<p>In either case, the blue cell must be 7.  Therefore we can confirm that the blue cell is 7.</p>
+</div>
+</div>
+<div id="techniques_link">
+<a href="xyz_wing.html">Previous</a> | <a href="sudoku_solving_techniques_9x9.html">List</a> | <a href="forcing_chain.html">Next</a>
+</div>
+<div id="footer">
+<p>
+<a class="flink1" href="sudoku_rules.html">Sudoku Rules</a>
+<a class="flink1" href="privacy_policy.html" rel="nofollow">Privacy Policy</a>
+<a class="flink1" href="contact_sudoku_9x9.html" rel="nofollow">Contact Us</a>
+</p>
+<div id="smalltext">
+Copyright &copy; 2009-<span id="yr"></span> Sudoku9x9.com - All Rights Reserved.
+</div>
+</div>
+</div>
+<script type="text/javascript">
+var d=new Date();
+document.getElementById("yr").innerHTML=d.getFullYear()+" ";
+</script>
+</body>
+
+<!-- Mirrored from sudoku9x9.com/coloring.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:34:25 GMT -->
+</html>
+

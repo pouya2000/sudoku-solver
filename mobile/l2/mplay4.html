@@ -1,0 +1,1215 @@
+h = '<script type="text/javascript">top.location = "http://www.sudoku9x9.com/mobile/"</script>';<!-- ';
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+}
+
+function rc2sqr(row,col)
+{
+ var nsquare;
+ nsquare=Math.floor(row/3)*3+Math.floor(col/3);
+ return nsquare;
+}
+
+function sqrc2r(square,srow)
+{
+ var row;
+ row=Math.floor(square/3)*3+srow;
+ return row;
+}
+
+function sqrc2c(square,scol)
+{
+ var col;
+ col=(square%3)*3+scol;
+ return col;
+}
+
+function band(row)
+{
+ var nband;
+ nband=Math.floor(row/3);
+ return nband;
+} 
+
+function stack(col)
+{
+ var nstack;
+ nstack=Math.floor(col/3);
+ return nstack;
+} 
+
+function solved()
+{
+ var done=true;
+ for (var i=0;i<81;i++)
+ {
+  if (pmark[i] || document.getElementById('c'+i).innerHTML!=solution[i])
+  {
+   done=false;
+   break;
+  }
+ }
+ if (done) setTimeout("finishps()",300);
+}
+
+function chk_playmoves()
+{
+ var wrongcell=new Array(81);
+ var nounfilled=0,nomatch=0, idx;
+ var msg="",fail=false;
+ var oldstep=step;
+ c_bgcolor();
+ for(idx=0;idx<81;idx++)
+ {
+  wrongcell[idx]=0;
+ }
+ for(idx=0;idx<81;idx++)
+ {
+  if (document.getElementById('c'+idx).innerHTML.length!=1 || pmark[idx]==true)
+  {
+   nounfilled++;
+  } 
+  else if ((("123456789").indexOf(document.getElementById('c'+idx).innerHTML) > -1)) 
+  {
+   if(document.getElementById('c'+idx).innerHTML!=solution[idx])
+   {
+	nomatch++;
+	wrongcell[idx]=1;
+   }
+  }
+  else
+  {
+   fail=true;
+   if (step==0) document.getElementById('bundo').style.color="";
+   step=oldstep+1;
+   length2step[historylength%stacklength]=step;
+   historypm[historylength%stacklength]=pmark[idx];
+   historyvalue[historylength%stacklength]=document.getElementById('c'+idx).innerHTML;
+   historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+idx).style.backgroundColor);
+   historycellnumber[historylength%stacklength]=idx;
+   historylength++;
+   if (rdstep>0) resetredo();
+   document.getElementById('cell'+idx).style.backgroundColor=hlcolor;    
+   if (idx!=cellselected) document.getElementById('cell'+idx).style.borderColor=hlcolor;
+   document.getElementById("broadcastmsg").innerHTML = "This cell is not valid.  Please check.";
+  }
+  if (fail) break;	
+ }
+ if(!fail)
+ { 
+  if(nomatch>0)
+  {
+   for(idx=0;idx<81;idx++)
+   {
+    if (wrongcell[idx]==1) 
+	{
+     if (step==0) document.getElementById('bundo').style.color="";
+     step=oldstep+1;
+     length2step[historylength%stacklength]=step;
+     historypm[historylength%stacklength]=pmark[idx];
+     historyvalue[historylength%stacklength]=document.getElementById('c'+idx).innerHTML;
+     historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+idx).style.backgroundColor);
+     historycellnumber[historylength%stacklength]=idx;
+     historylength++;
+     if (rdstep>0) resetredo();
+	 document.getElementById('cell'+idx).style.backgroundColor=hlcolor;
+     if (idx!=cellselected) document.getElementById('cell'+idx).style.borderColor=hlcolor;
+	} 
+   }    
+   if (nomatch==1) msg="This cell is ";
+   else msg="These cells are ";
+   msg+="not correct.";
+   document.getElementById("broadcastmsg").innerHTML = msg;  
+  }
+  else if (nounfilled>0)
+  {
+   msg="So far so good...";
+   document.getElementById("broadcastmsg").innerHTML = msg;  
+  }
+  else 
+  {
+   finishps();
+  }
+ }
+}
+
+function chk_result()
+{
+ var itemp=new Array(81),nomatch=0,msg="", idx;
+ var oldstep=step, fail=false;
+ c_bgcolor();
+ for(idx=0;idx<81;idx++)
+ {
+  if (document.getElementById('c'+idx).innerHTML.length!=1 || pmark[idx]==true)
+  {
+   fail=true;
+   if (step==0) document.getElementById('bundo').style.color="";
+   step=oldstep+1;
+   length2step[historylength%stacklength]=step;
+   historypm[historylength%stacklength]=pmark[idx];
+   historyvalue[historylength%stacklength]=document.getElementById('c'+idx).innerHTML;
+   historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+idx).style.backgroundColor);
+   historycellnumber[historylength%stacklength]=idx;
+   historylength++;
+   if (rdstep>0) resetredo();
+   document.getElementById('cell'+idx).style.backgroundColor=hlcolor;    
+   if (idx!=cellselected) document.getElementById('cell'+idx).style.borderColor=hlcolor;
+  } 
+  else 
+  {
+   itemp[idx]=1*document.getElementById('c'+idx).innerHTML;
+  }
+ }
+ if (fail) 
+ {
+  document.getElementById("broadcastmsg").innerHTML = "You are not done yet.";
+ }  
+ else
+ {
+  for(idx=0;idx<81;idx++)
+  {
+   if (itemp[idx]!=solution[idx])
+   {
+    nomatch++;
+    if (step==0) document.getElementById('bundo').style.color="";
+    step=oldstep+1;
+    length2step[historylength%stacklength]=step;
+    historypm[historylength%stacklength]=pmark[idx];
+    historyvalue[historylength%stacklength]=document.getElementById('c'+idx).innerHTML;
+    historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+idx).style.backgroundColor);
+    historycellnumber[historylength%stacklength]=idx;
+    historylength++;
+    if (rdstep>0) resetredo();
+	document.getElementById('cell'+idx).style.backgroundColor=hlcolor;
+    if (idx!=cellselected) document.getElementById('cell'+idx).style.borderColor=hlcolor;
+   }
+  }
+  if(nomatch>0)
+  {
+   if (nomatch==1) msg="This cell is ";
+   else msg="These cells are ";
+   msg+="not correct.";
+   document.getElementById("broadcastmsg").innerHTML = msg;
+  }
+  else
+  {
+   finishps();
+  }  
+ }
+}
+
+function validate_form(form)
+{
+ if (document.getElementById('puzzleno').value=="" || document.getElementById('puzzleno').value.indexOf('Puzzle#')>=0)
+ {
+  alert("Please enter a puzzle number.");
+  return false;
+ }
+ else 
+ {
+  var n = ~~Number(document.getElementById('puzzleno').value); 
+  if (String(n) === document.getElementById('puzzleno').value && n > 0)  return true;
+  else
+  {
+   alert(document.getElementById('puzzleno').value+" is not a valid puzzle number.");
+   return false;
+  }
+ }
+}
+
+function setregularfont(current_id)
+{
+ document.getElementById('cell'+current_id).className=document.getElementById('cell'+current_id).className.replace(" cbdrs","");
+ pmark[current_id]=false;
+}
+
+function setpmarkfont(current_id)
+{
+ document.getElementById('cell'+current_id).className=document.getElementById('cell'+current_id).className.replace(" cbdrs","")+" cbdrs";
+ pmark[current_id]=true;
+}
+
+function setcellselected(id)
+{
+ var bcolor=dfcolor;
+ if (dcmode=="c") bcolor=cfcolor;
+ if (cellselected>=0 && cellselected<81) document.getElementById('cell'+cellselected).style.borderColor=document.getElementById('cell'+cellselected).style.backgroundColor;
+ if (id>=0 && id<81) document.getElementById('cell'+id).style.borderColor=bcolor;
+ cellselected=id;
+}
+
+function clickcell(current_id)
+{
+ if (dcmode=="d")
+ {
+  if (numberselected==0 && !hlmode) 
+  {
+   if (current_id==cellselected) 
+   {
+    if (rcmode) resetrcclr();
+    setcellselected(81);
+   }
+   else 
+   {
+    if (rcmode) 
+	{
+	 showrc(current_id);
+	}
+    setcellselected(current_id);	
+   }   
+   if (!rcmode) document.getElementById("broadcastmsg").innerHTML="Digit frist mode";
+  } 
+  else 
+  {
+   hl_bgcolor(current_id);
+   if (rcmode)
+   {
+    showrc(current_id);
+   }
+   setcellselected(current_id); 
+  }
+ }
+ else if (dcmode=="c")
+ {
+  if (current_id==cellselected)
+  {
+   setcellselected(81);
+   if (rcmode) resetrcclr();
+  }
+  else
+  {
+   setcellselected(current_id);
+   if (rcmode) showrc(current_id);
+  }
+ }  
+}
+
+function clickdigit(id)
+{
+ if (dcmode=="d")
+ {
+  set_bgcolor(id);
+ }
+ else if (dcmode=="c")
+ {
+  tap("b"+id);
+  if (!finish)
+  {
+   if (!(cellselected>=0 && cellselected<=80)) document.getElementById("broadcastmsg").innerHTML="Cell frist mode";
+   else
+   {
+    numberselected=id;
+    hl_bgcolor(cellselected);
+   }	
+  }  
+ }
+}
+  
+function setfontsize(current_id)
+{
+ if ((document.getElementById('c'+current_id).innerHTML!=oldvalue || (numberselected >0 && numberselected<10)) && orig[current_id]==0 && current_id==oldcellnumber) {
+  if ((document.getElementById('c'+current_id).innerHTML.length==1 && (!pmmode || spmautomode))|| document.getElementById('c'+current_id).innerHTML.length==0)
+  {
+   setregularfont(current_id);
+  }
+  else
+  {
+   setpmarkfont(current_id);
+  }
+ }
+
+ if (current_id==oldcellnumber && (document.getElementById('c'+current_id).innerHTML!=oldvalue || (truecolor(document.getElementById('cell'+current_id).style.backgroundColor)!=oldbgcolor && ((truecolor(document.getElementById('cell'+current_id).style.backgroundColor)!=nobgclr &&  document.getElementById('cell'+current_id).style.backgroundColor!="") || (oldbgcolor!=nobgclr && oldbgcolor!=""))) || pmark[current_id]!=oldpm) && (historylength==0 || (historylength>0 && (oldcellnumber!=historycellnumber[(historylength-1)%stacklength] || oldvalue!=historyvalue[(historylength-1)%stacklength] || oldbgcolor!=historybgcolor[(historylength-1)%stacklength] || oldpm!=historypm[(historylength-1)%stacklength]))))
+ {
+  if (step==0) document.getElementById('bundo').style.color="";
+  step++;
+  length2step[historylength%stacklength]=step;
+  historypm[historylength%stacklength]=oldpm;
+  historyvalue[historylength%stacklength]=oldvalue;
+  historybgcolor[historylength%stacklength]=oldbgcolor;
+  historycellnumber[historylength%stacklength]=current_id;
+  historylength++;
+  if (rdstep>0) resetredo();
+  document.getElementById("broadcastmsg").innerHTML ="";
+  countdg();
+ }
+ if (currmsg!="") 
+ {
+  document.getElementById("broadcastmsg").innerHTML =currmsg;
+  currmsg="";
+ } 
+}
+
+function hl_bgcolor(current_id)
+{
+ oldcellnumber=current_id;
+ oldpm=pmark[current_id];
+ oldvalue=document.getElementById('c'+current_id).innerHTML;
+ oldbgcolor=truecolor(document.getElementById('cell'+current_id).style.backgroundColor);
+ if (hlmode)
+ {
+  if (chlcolor=="")
+  {
+   //alert("Please select a color or uncheck the \"Highlight\" checkbox.");
+  }
+  else
+  {   
+   if (orig[current_id]==0) 
+   {
+    document.getElementById('cell'+current_id).style.backgroundColor=chlcolor;
+	if (rcmode && related[current_id]) setclr(current_id);
+	else if (current_id!=cellselected) document.getElementById('cell'+current_id).style.borderColor=document.getElementById('cell'+current_id).style.backgroundColor;
+   }	
+  }
+ }
+ if (orig[current_id]==0 && (numberselected!="" && numberselected!=0))
+ {
+  if (numberselected==10)
+  {
+   document.getElementById('c'+current_id).innerHTML="";
+  }
+  else
+  {  
+   if (!pmmode)
+   {
+	if (document.getElementById('c'+current_id).innerHTML==numberselected && pmark[current_id]==false)
+	{
+	 document.getElementById('c'+current_id).innerHTML="";
+	}
+	else if (pmark[current_id]==true || document.getElementById('c'+current_id).innerHTML.length==0)
+	{
+	 document.getElementById('c'+current_id).innerHTML=numberselected;
+	}
+	else if (document.getElementById('c'+current_id).innerHTML.length==1 && pmark[current_id]==false && document.getElementById('c'+current_id).innerHTML!=numberselected)
+	{
+	  currmsg="This cell has been occupied.";
+	}
+   }
+   else
+   {
+    var pos=document.getElementById('c'+current_id).innerHTML.indexOf(numberselected);
+    if (pos<0) 
+    {
+	 var clength=document.getElementById('c'+current_id).innerHTML.length;
+     if (clength==0)
+     {
+	  document.getElementById('c'+current_id).innerHTML=numberselected;
+	 }	 
+	 else
+	 {
+	  var dumfound=0;
+	  for (var i=clength-1;i>=0;i=i-2)
+	  {
+	   if (numberselected > document.getElementById('c'+current_id).innerHTML.substring(i,i+1))
+	   {
+        document.getElementById('c'+current_id).innerHTML=document.getElementById('c'+current_id).innerHTML.substring(0,i+1)+" "+numberselected+document.getElementById('c'+current_id).innerHTML.substring(i+1,clength);
+		dumfound=1;
+		break;
+	   }
+	  } 
+      if (dumfound==0) document.getElementById('c'+current_id).innerHTML=numberselected+" "+document.getElementById('c'+current_id).innerHTML;
+	 }
+	} 
+    else
+    {
+	 if (pos==0)
+	 {
+	  document.getElementById('c'+current_id).innerHTML=document.getElementById('c'+current_id).innerHTML.substring(2);
+	 }
+	 else
+	 {
+	  var leftstr=document.getElementById('c'+current_id).innerHTML.substring(0,pos-1);
+	  var rightstr=document.getElementById('c'+current_id).innerHTML.substring(pos+1);
+	  document.getElementById('c'+current_id).innerHTML=leftstr+rightstr;
+	 }
+	}
+   } 
+  }
+ }
+ setfontsize(current_id);
+ if (dcmode=="d") set_bold_1(current_id,numberselected);
+ if (!finish) solved();
+}
+
+function c_bgcolor()
+{
+ var oldstep=step, i;
+ for(i=0;i<81;i++)
+ {
+  if(orig[i]==0 && truecolor(document.getElementById('cell'+i).style.backgroundColor)!=nobgclr && document.getElementById('cell'+i).style.backgroundColor!='') 
+  {
+   if (step==0) document.getElementById('bundo').style.color="";
+   step=oldstep+1;
+   length2step[historylength%stacklength]=step;
+   historypm[historylength%stacklength]=pmark[i];
+   historyvalue[historylength%stacklength]=document.getElementById('c'+i).innerHTML;
+   historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+i).style.backgroundColor);
+   historycellnumber[historylength%stacklength]=i;
+   historylength++;
+   if (rdstep>0) resetredo();
+   document.getElementById('cell'+i).style.backgroundColor= nobgclr;
+   if (rcmode && related[i]) setclr(i);
+   else if (i!=cellselected) document.getElementById('cell'+i).style.borderColor= document.getElementById('cell'+i).style.backgroundColor;
+  } 
+ }
+}
+
+function chghlclr(selectedclr)
+{
+ chlcolor=selectedclr;
+ setclrpic();
+ if (!finish && dcmode=="c" && cellselected>=0 && cellselected<=80) 
+ {
+  numberselected=0;
+  hl_bgcolor(cellselected);
+ }
+}
+
+function convtp()
+{
+ var oldstep=step, i;
+ for (i=0;i<81;i++)
+ {
+  if (orig[i]==0 && document.getElementById('c'+i).innerHTML.length==1 && pmark[i]==true)
+  {
+   if (step==0) document.getElementById('bundo').style.color="";
+   step=oldstep+1;
+   length2step[historylength%stacklength]=step;
+   historyvalue[historylength%stacklength]=document.getElementById('c'+i).innerHTML;
+   historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+i).style.backgroundColor);
+   historypm[historylength%stacklength]=pmark[i];
+   historycellnumber[historylength%stacklength]=i;
+   historylength++;
+   if (rdstep>0) resetredo();
+   setregularfont(i);
+   document.getElementById('c'+i).innerHTML=document.getElementById('c'+i).innerHTML;
+   if (dcmode=="d") set_bold_1(i,numberselected);
+  }
+ }
+ countdg();
+ if (!finish) solved();
+}
+
+function restart_puzzle()
+{
+ var i;
+ var clear=confirm("Are you sure you want to clear all cells?");
+ if (clear==true)
+ {
+  step=0;
+  historylength=0;
+  if (rdstep>0) resetredo();
+  resetundo();
+  setcellselected(81);
+  document.getElementById('rsltbox').style.zIndex="20";
+  for(i=0;i<81;i++)
+  {
+   pmark[i]=false; 
+   related[i]=false;   
+   if(orig[i]==0)
+   {
+    document.getElementById('c'+i).innerHTML="";
+    document.getElementById('cell'+i).style.backgroundColor="";
+    if (i!=cellselected) document.getElementById('cell'+i).style.borderColor="";
+    pmark[i]=false;
+   }
+   else
+   {
+    document.getElementById('cell'+i).style.backgroundColor="";   
+    document.getElementById('cell'+i).style.borderColor="";   
+   }
+   if (finish)
+   {
+    document.getElementById('outercell'+i).style.borderColor="";
+    document.getElementById('c'+i).style.color="";
+    if (dcmode=="d") set_bold_1(i,numberselected);
+   }
+  }
+  if (finish)
+  {
+   document.getElementById('playtable').style.borderColor="";
+   finish=false;
+   timerreset();
+  }
+  document.getElementById("broadcastmsg").innerHTML = "Fresh start!";  
+  countdg();
+ }
+}
+
+function clear_pencilmark()
+{
+ var oldstep=step, i;
+ for(i=0;i<81;i++)
+ {
+  if(document.getElementById('c'+i).innerHTML.length>0 && pmark[i]==true) 
+  {
+   if (step==0) document.getElementById('bundo').style.color="";
+   step=oldstep+1;
+   length2step[historylength%stacklength]=step;
+   historypm[historylength%stacklength]=pmark[i];
+   historyvalue[historylength%stacklength]=document.getElementById('c'+i).innerHTML;
+   historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+i).style.backgroundColor);
+   historycellnumber[historylength%stacklength]=i;
+   historylength++;
+   if (rdstep>0) resetredo();
+   document.getElementById('c'+i).innerHTML="";
+   pmark[i]=false;
+  }   
+ }
+ countdg();
+}
+
+function give_up()
+{
+ var giveup=confirm("Give up and want the solution?"), i;
+ if (giveup==true)
+ {
+  c_bgcolor();
+  resetundo();
+  resetredo();
+  for(i=0;i<81;i++)
+  {
+   if (orig[i]==0) 
+   {
+    setregularfont(i);
+    document.getElementById('c'+i).innerHTML=solution[i];
+   }	
+   set_bold_1(i,0);
+  }
+  document.getElementById("broadcastmsg").innerHTML = "Here is the solution." ;
+  if (status==1) strtpause();
+  finish=true;   
+  countdg();
+ }
+}
+
+function set_bold_1(id,inum)
+{
+ if (document.getElementById('c'+id).innerHTML!="" && document.getElementById('c'+id).innerHTML==inum && pmark[id]==false)
+ {
+  document.getElementById('c'+id).style.fontWeight="bold";
+  document.getElementById('c'+id).style.color="#0000ff";
+ } 
+ else
+ {
+  document.getElementById('c'+id).style.fontWeight="normal";    
+  document.getElementById('c'+id).style.color="#000000";
+ }  
+}
+
+function set_bold(inum)
+{
+ for (var i=0;i<81;i++)
+ {
+  set_bold_1(i,inum);
+ }
+}
+
+function set_bgcolor(current_id)
+{
+  if (current_id==numberselected) numberselected=0;
+  else numberselected=current_id;
+  for (var i=1;i<=10;i++)
+  { 
+   if (i!=numberselected) 
+   {
+    document.getElementById('b'+i).style.backgroundColor=dbuttoncolor;
+	document.getElementById('bn'+i).style.color="#000000";
+	document.getElementById('bn'+i).style.fontWeight="normal";
+	if (i<10)
+	{
+     if (document.getElementById('nl'+i).innerHTML>0) document.getElementById('nl'+i).style.color="";
+	 else document.getElementById('nl'+i).style.color="#969696";
+	} 
+   }
+   else 
+   {
+    document.getElementById('b'+i).style.backgroundColor=sbuttoncolor;
+	document.getElementById('bn'+i).style.color=nobgclr;
+	document.getElementById('bn'+i).style.fontWeight="bold";
+	if (i<10) document.getElementById('nl'+i).style.color="#eeeeee";
+   }	
+  }
+  if (!finish) set_bold(numberselected);
+}
+
+
+function resetredo()
+{
+ rdstep=0;
+ rdhistorylength=0;
+ document.getElementById("bredo").style.color="#969696";
+}
+
+function resetundo()
+{
+ step=0;
+ historylength=0;
+ document.getElementById("bundo").style.color="#969696";
+}
+
+function undo()
+{
+ if (historylength>0)
+ {
+  var numcellsundo=0;
+  while(historylength-- >=0 && length2step[historylength%stacklength]==step)
+  {
+   numcellsundo++;
+   rdlength2step[rdhistorylength%stacklength]=rdstep+1;
+   rdhistorycellnumber[rdhistorylength%stacklength]=historycellnumber[historylength%stacklength];
+   rdhistorypm[rdhistorylength%stacklength]=pmark[historycellnumber[historylength%stacklength]];
+   rdhistoryvalue[rdhistorylength%stacklength]=document.getElementById('c'+historycellnumber[historylength%stacklength]).innerHTML;
+   rdhistorybgcolor[rdhistorylength%stacklength]=truecolor(document.getElementById('cell'+historycellnumber[historylength%stacklength]).style.backgroundColor);
+   rdhistorylength++;
+   if (historypm[historylength%stacklength]==false) setregularfont(historycellnumber[historylength%stacklength]);
+   else setpmarkfont(historycellnumber[historylength%stacklength]);
+   document.getElementById('c'+historycellnumber[historylength%stacklength]).innerHTML=historyvalue[historylength%stacklength];
+   document.getElementById('cell'+historycellnumber[historylength%stacklength]).style.backgroundColor=historybgcolor[historylength%stacklength];
+   if (related[historycellnumber[historylength%stacklength]]) setclr(historycellnumber[historylength%stacklength]);
+   if (historycellnumber[historylength%stacklength]!=cellselected) document.getElementById('cell'+historycellnumber[historylength%stacklength]).style.borderColor=document.getElementById('cell'+historycellnumber[historylength%stacklength]).style.backgroundColor;
+  }
+  historylength++;
+  if (numcellsundo>0)
+  {
+   document.getElementById("broadcastmsg").innerHTML="";
+   step--;
+   if (dcmode=="d") set_bold(numberselected);
+   if (step==0) 
+   {
+    document.getElementById('bundo').style.color="#969696";
+    //document.getElementById("broadcastmsg").innerHTML="End of Undo stack.";
+   } 
+   if (rdstep==0) document.getElementById('bredo').style.color="";
+   rdstep++;
+  }
+  else if (historylength==0)
+  {
+   resetundo();
+   //alert("No more moves");
+  }
+  else if (historylength>0)
+  {
+   resetundo();
+   alert("The 'Undo' stack is empty.  Further previous moves cannot be reversed.");
+  }
+  countdg();
+ } 
+}
+
+function redo()
+{
+ if (rdhistorylength>0)
+ {
+  var numcellsredo=0;
+  while(rdhistorylength-- >=0 && rdlength2step[rdhistorylength%stacklength]==rdstep)
+  {
+   numcellsredo++;
+   length2step[historylength%stacklength]=step+1;
+   historycellnumber[historylength%stacklength]=rdhistorycellnumber[rdhistorylength%stacklength];
+   historypm[historylength%stacklength]=pmark[rdhistorycellnumber[rdhistorylength%stacklength]];
+   historyvalue[historylength%stacklength]=document.getElementById('c'+rdhistorycellnumber[rdhistorylength%stacklength]).innerHTML;
+   historybgcolor[historylength%stacklength]=truecolor(document.getElementById('cell'+rdhistorycellnumber[rdhistorylength%stacklength]).style.backgroundColor);
+   historylength++;
+   if (rdhistorypm[rdhistorylength%stacklength]==false) setregularfont(rdhistorycellnumber[rdhistorylength%stacklength]);
+   else setpmarkfont(rdhistorycellnumber[rdhistorylength%stacklength]);
+   document.getElementById('c'+rdhistorycellnumber[rdhistorylength%stacklength]).innerHTML=rdhistoryvalue[rdhistorylength%stacklength];
+   document.getElementById('cell'+rdhistorycellnumber[rdhistorylength%stacklength]).style.backgroundColor=rdhistorybgcolor[rdhistorylength%stacklength];
+   if (related[rdhistorycellnumber[rdhistorylength%stacklength]]) setclr(rdhistorycellnumber[rdhistorylength%stacklength]); 
+   if (rdhistorycellnumber[rdhistorylength%stacklength]!=cellselected) document.getElementById('cell'+rdhistorycellnumber[rdhistorylength%stacklength]).style.borderColor=document.getElementById('cell'+rdhistorycellnumber[rdhistorylength%stacklength]).style.backgroundColor;  
+  }
+  rdhistorylength++;
+  if (numcellsredo>0)
+  {
+   document.getElementById("broadcastmsg").innerHTML="";
+   rdstep--;
+   if (rdstep==0)
+   {
+    document.getElementById('bredo').style.color="#969696";
+    //document.getElementById("broadcastmsg").innerHTML="All moves have been redone.";
+   } 
+   if (dcmode=="d") set_bold(numberselected);
+   if (step==0) document.getElementById('bundo').style.color="";
+   step++;
+  }
+  else if (rdhistorylength==0)
+  {
+   //resetredo();
+   alert("No more moves");
+  }
+  else if (rdhistorylength>0)
+  {
+   resetredo();
+   alert("The 'Redo' stack is empty.  No more moves can be redone.");
+  }
+  countdg();
+ }
+}
+
+function chg_cursor(current_id)
+{
+ if (numberselected!="0" && dcmode=="d")
+ {
+  if (document.getElementById('c'+current_id).innerHTML.indexOf(numberselected)<0 || (pmmode==false && pmark[current_id]==true) || orig[current_id]!=0)
+  {
+   switch (numberselected)
+   {
+    case 1:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr1').style.cursor;
+	 break;
+    case 2:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr2').style.cursor;
+	 break;
+    case 3:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr3').style.cursor;
+	 break;
+    case 4:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr4').style.cursor;
+	 break;
+    case 5:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr5').style.cursor;
+	 break;
+    case 6:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr6').style.cursor;
+	 break;
+    case 7:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr7').style.cursor;
+	 break;
+    case 8:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr8').style.cursor;
+	 break;
+    case 9:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr9').style.cursor;
+	 break;
+    case 10:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csrx').style.cursor;
+	 break;
+    default:
+     document.getElementById('cell'+current_id).style.cursor="default";
+	 break;
+   }
+  } 
+  else
+  {
+   switch (numberselected)
+   {
+    case 1:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr1d').style.cursor;
+	 break;
+    case 2:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr2d').style.cursor;
+	 break;
+    case 3:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr3d').style.cursor;
+	 break;
+    case 4:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr4d').style.cursor;
+	 break;
+    case 5:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr5d').style.cursor;
+	 break;
+    case 6:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr6d').style.cursor;
+	 break;
+    case 7:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr7d').style.cursor;
+	 break;
+    case 8:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr8d').style.cursor;
+	 break;
+    case 9:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csr9d').style.cursor;
+	 break;
+    case 10:
+     document.getElementById('cell'+current_id).style.cursor=document.getElementById('csrx').style.cursor;
+	 break;
+    default:
+     document.getElementById('cell'+current_id).style.cursor="default";
+	 break;
+   }
+  } 
+ }
+ if (rcmode && rcmove) showrc(current_id);
+}
+
+function showrc(id)
+{
+ var row=Math.floor(id/9);
+ var col=id%9;
+ var sqr=rc2sqr(row,col);
+ for (var i=0;i<81;i++)
+ {
+  if (Math.floor(i/9)==row || (i%9)==col || rc2sqr(Math.floor(i/9),i%9)==sqr) {if (!related[i]) setclr(i);}
+  else if (related[i]) resetbgclr(i);
+ }
+}
+
+function resetrcclr()
+{
+ for (var i=0;i<81;i++)
+ {
+  if (related[i]) resetbgclr(i);
+ }
+}
+
+function colorToHex(c) 
+{
+ var m = /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(c);
+ return m ? '#' + (1 << 24 | m[1] << 16 | m[2] << 8 | m[3]).toString(16).substr(1) : c;
+}
+
+function truecolor(c)
+{
+ var b=colorToHex(c);
+ if (b==hhlcolor) b=hlcolor;
+ else if (b==hnobgclr) b=nobgclr;
+ else if (b==hclueclr) b=clueclr;
+ else if (b==hgreen) b=green;
+ else if (b==hyellow) b=yellow;
+ else if (b==hred) b=red;
+ else if (b==hblue) b=blue;
+ return b;
+}
+
+function setclr(id)
+{
+ var dumclr=colorToHex(document.getElementById("cell"+id).style.backgroundColor);
+ if (orig[id]!=0)
+ {
+  document.getElementById("cell"+id).style.backgroundColor=hclueclr;
+ }
+ else if (dumclr==green) document.getElementById("cell"+id).style.backgroundColor=hgreen;
+ else if (dumclr==yellow) document.getElementById("cell"+id).style.backgroundColor=hyellow;
+ else if (dumclr==red) document.getElementById("cell"+id).style.backgroundColor=hred;
+ else if (dumclr==blue) document.getElementById("cell"+id).style.backgroundColor=hblue;
+ else if (dumclr==hlcolor) document.getElementById("cell"+id).style.backgroundColor=hhlcolor;
+ else if (dumclr=="" || dumclr==nobgclr) document.getElementById("cell"+id).style.backgroundColor=hnobgclr;
+ if (id!=cellselected) document.getElementById("cell"+id).style.borderColor=document.getElementById("cell"+id).style.backgroundColor;
+ related[id]=true;
+}
+
+function resetbgclr(id)
+{
+ var dumclr=colorToHex(document.getElementById("cell"+id).style.backgroundColor);
+ if (orig[id]!=0)
+ {
+  document.getElementById("cell"+id).style.backgroundColor="";
+ }
+ else if (dumclr==hgreen) document.getElementById("cell"+id).style.backgroundColor=green;
+ else if (dumclr==hyellow) document.getElementById("cell"+id).style.backgroundColor=yellow;
+ else if (dumclr==hred) document.getElementById("cell"+id).style.backgroundColor=red;
+ else if (dumclr==hblue) document.getElementById("cell"+id).style.backgroundColor=blue;
+ else if (dumclr==hhlcolor) document.getElementById("cell"+id).style.backgroundColor=hlcolor;
+ else if (dumclr==hnobgclr) document.getElementById("cell"+id).style.backgroundColor=nobgclr;
+ if (id!=cellselected) document.getElementById("cell"+id).style.borderColor=document.getElementById("cell"+id).style.backgroundColor;
+ related[id]=false;
+}
+
+
+function chgdgcursor(id)
+{
+ if (dcmode=="c" && cellselected>=0 && cellselected<81)
+ {
+  if (id=="10") document.getElementById('b10').style.cursor=document.getElementById('csrx').style.cursor;
+  else if (id>=1 && id<=9)
+  {
+   if (document.getElementById('c'+cellselected).innerHTML.indexOf(id)<0 || (pmmode==false && pmark[cellselected]==true)) document.getElementById('b'+id).style.cursor=document.getElementById('csr'+id).style.cursor;
+   else document.getElementById('b'+id).style.cursor=document.getElementById('csr'+id+'d').style.cursor;
+  }
+ }
+}
+
+function reset_cursor(current_id)
+{
+ if (dcmode=="d") document.getElementById('cell'+current_id).style.cursor="default";
+ if (rcmode && rcmove) resetrcclr();
+}
+
+function resetdgcursor(id)
+{
+ document.getElementById('b'+id).style.cursor="";
+}
+
+function togglepmmode()
+{
+ if (pmmode) 
+ {
+  pmmode=false;
+  document.getElementById('pmchkbox').className="chkbximg";
+ } 
+ else 
+ {
+  pmmode=true;
+  document.getElementById('pmchkbox').className="checkedimg";
+ }
+}
+
+function togglehlmode()
+{
+ if (hlmode) 
+ {
+  hlmode=false;
+  document.getElementById("hlchkbox").className="chkbximg";
+  resetclrpic();
+ } 
+ else 
+ {
+  hlmode=true;
+  document.getElementById("hlchkbox").className="checkedimg";
+  setclrpic();
+ }
+}
+
+function toggledcmode()
+{
+ if (dcmode=="d") 
+ {
+  dcmode="c";
+  set_bgcolor(0);
+  document.getElementById("dcvalue").innerHTML="Cell First";
+  document.getElementById("broadcastmsg").innerHTML="Cell first mode activated";
+ } 
+ else if (dcmode=="c")
+ {
+  dcmode="d";
+  clrbdr();
+  numberselected=0;
+  set_bgcolor(0);
+  document.getElementById("dcvalue").innerHTML="Digit First";
+  document.getElementById("broadcastmsg").innerHTML="Digit first mode activated";
+ } 
+ setcellselected(cellselected);
+}
+
+function togglespm()
+{
+ if (spmautomode) 
+ {
+  spmautomode=false;
+  document.getElementById("spmchkbox").className="chkbximg";
+ } 
+ else 
+ {
+  spmautomode=true;
+  document.getElementById("spmchkbox").className="checkedimg";
+ }
+}
+
+function togglercmode()
+{
+ if (rcmode) 
+ {
+  rcmode=false;
+  document.getElementById("rcchkbox").className="chkbximg";
+  resetrcclr();
+ } 
+ else 
+ {
+  rcmode=true;
+  document.getElementById("rcchkbox").className="checkedimg";
+  if (!rcmove && cellselected>=0 && cellselected<81) showrc(cellselected);
+ }
+}
+
+function togglercmove()
+{
+ if (rcmove) 
+ {
+  rcmove=false;
+  document.getElementById("rcmovechkbox").className="chkbximg";
+  if (rcmode && cellselected>=0 && cellselected<81 && !finish) showrc(cellselected);
+  eraseCookie("rcmove");
+ } 
+ else 
+ {
+  rcmove=true;
+  document.getElementById("rcmovechkbox").className="checkedimg";
+  createCookie("rcmove","1",90);
+ }
+}
+
+function tap(eid)
+{
+ document.getElementById(eid).style.backgroundColor=tapcolor;
+ setTimeout("document.getElementById('"+eid+"').style.backgroundColor='';",200);
+}
+
+function clrbdr()
+{
+ for (var i=0;i<81;i++)
+ {
+  document.getElementById("cell"+i).style.borderColor=document.getElementById("cell"+i).style.backgroundColor;
+ }
+}
+
+function setclrpic()
+{
+ document.getElementById("cbx1").style.backgroundColor=chlcolor;
+ document.getElementById("cbx3").style.backgroundColor=chlcolor;
+ document.getElementById("cbx6").style.backgroundColor=chlcolor;
+ document.getElementById("cbx8").style.backgroundColor=chlcolor;
+}
+
+function resetclrpic()
+{
+ document.getElementById("cbx1").style.backgroundColor=yellow;
+ document.getElementById("cbx3").style.backgroundColor=blue;
+ document.getElementById("cbx6").style.backgroundColor=red;
+ document.getElementById("cbx8").style.backgroundColor=green;
+}
+
+function gridps(dumid)
+{
+ var id=forder[dumid];
+ document.getElementById('c'+id).readOnly=true;
+ document.getElementById('outercell'+id).style.borderColor="#969696";
+ document.getElementById('c'+id).style.color="#c0c0c0";
+ document.getElementById('c'+id).style.fontWeight="normal";
+ if (orig[id]==0)
+ {
+  document.getElementById('cell'+id).style.backgroundColor="#f5f5f5";
+  document.getElementById('cell'+id).style.borderColor="#f5f5f5";
+ }
+ else
+ {
+  document.getElementById('cell'+id).style.backgroundColor="#eaeaea";
+  document.getElementById('cell'+id).style.borderColor="#eaeaea";
+ } 
+}
+
+function finishps()
+{
+ finish=true;
+ document.getElementById('msg1').innerHTML="Congratulations!";
+ var vmsg2="You just solved this puzzle";
+ if (status==1) 
+ {
+  strtpause();
+  vmsg2+=" in ";
+  if (min>=60)
+  {
+   hr=Math.floor(min/60);
+   min=min%60;
+   vmsg2+=hr+":";  
+  }
+  else hr=0;
+  if (hr>0 && min<10)
+  {
+   dmin="0"+min;
+  }
+  else dmin=min;
+  vmsg2+=dmin+":"+dsec;
+ }   
+ document.getElementById('msg2').innerHTML=vmsg2+'.';
+ document.getElementById('playtable').style.borderColor="#969696";
+ var delayt=50, i;
+ for (i=0;i<=80;i++)
+ {
+  setTimeout("gridps("+i+")",delayt*i);
+ }
+ for (i=0;i<=10;i++)
+ {
+  setTimeout("blink2()",delayt*86+i*300);
+ }
+}
+
+function blink()
+{
+ if (document.getElementById('broadcastmsg').style.backgroundColor=="#fdfdd6" || document.getElementById('broadcastmsg').style.backgroundColor=="rgb(253, 253, 214)")
+ {
+    document.getElementById('broadcastmsg').style.backgroundColor="#fefee6";
+ }
+ else
+ {
+  document.getElementById('broadcastmsg').style.backgroundColor="#fdfdd6";
+ }
+}
+
+function blink2()
+{
+ if (document.getElementById('rsltbox').style.zIndex=="200") document.getElementById('rsltbox').style.zIndex="20";
+ else document.getElementById('rsltbox').style.zIndex="200";
+}
+
+function countdg()
+{
+ var ndigit=new Array(9,9,9,9,9,9,9,9,9), i, idx;
+ for(idx=0;idx<81;idx++)
+ {
+  if (document.getElementById('c'+idx).innerHTML.length==1 && pmark[idx]==false)
+  {
+   ndigit[document.getElementById('c'+idx).innerHTML-1]--;
+  } 
+ }
+ for (i=1;i<10;i++)
+ {
+  document.getElementById('nl'+i).innerHTML=ndigit[i-1];
+  if (dcmode=="d" && i==numberselected) document.getElementById('nl'+i).style.color="#eeeeee";
+  else
+  {
+   if (ndigit[i-1]<=0) document.getElementById('nl'+i).style.color="#969696";
+   else document.getElementById('nl'+i).style.color="#006600";
+  } 
+ }
+}
+
+function preparebox()
+{
+ document.getElementById('puzzleno').style.color="#333333";
+ document.getElementById('puzzleno').style.fontStyle="normal";
+ document.getElementById('puzzleno').style.fontSize="15px";
+ if (document.getElementById('puzzleno').value.indexOf("Puzzle# 1-999999999")>-1) document.getElementById('puzzleno').value="";
+}
+
+function enterpuzz()
+{
+ document.getElementById('enterbox').style.zIndex="200";
+ document.getElementById('pickpuzz').style.color="#333333";
+ document.getElementById('pickpuzz').style.fontStyle="normal";
+ document.getElementById('pickpuzz').innerHTML=document.getElementById('pickpuzz').innerHTML.replace(/[^0-9]+/, ''); 
+}
+
+function closepuzz()
+{
+ document.getElementById('enterbox').style.zIndex="20";
+ document.getElementById('pickpuzz').style.color="";
+ document.getElementById('pickpuzz').style.fontStyle="";
+ document.getElementById('pickpuzz').innerHTML="Enter a puzzle number";
+}
+
+function puzzno(indg)
+{
+ var txt=document.getElementById('pickpuzz').innerHTML.replace(/[^0-9]+/, '');
+ if (indg=='c')
+ {
+  txt=txt.substring(0,txt.length - 1);
+ }
+ else if ((txt.length>0 || indg!='0') && txt.length<9)
+ {
+  txt+=indg;
+ }  
+ document.getElementById('pickpuzz').innerHTML=txt;
+ document.getElementById('puzzleno').value=txt;
+}
+
+h = ' -->';

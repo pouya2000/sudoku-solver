@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<!-- Mirrored from sudoku9x9.com/forcing_chain.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:34:25 GMT -->
+<head>
+<title>Forcing Chain - Sudoku Solving Techniques</title>
+<meta name="description" content="A description of Forcing Chain - an advanced Sudoku solving technique.">
+<meta name="keywords" content="Forcing Chain, Sudoku tips, Sudoku solving techniques, advanced, How to solve Sudoku puzzles, sudoku, 9x9">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="css/bstd7.css">
+<link rel="icon" href="favicon.ico">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<body>
+<div id="container">
+<div id="header">
+<div id="headerl">
+<div id="titlepic">
+<a href="index.html"><img src="img/title_small.png" alt="Sudoku 9x9.com" title="Sudoku 9x9.com"></a>
+</div>
+</div>
+<div id="headerr">
+<div id="title">
+<h1>Technique: Forcing Chain</h1>
+</div>
+<div id="hnavigator">
+<div class="mainnav">
+<p><a href="index.html">Free Online Sudoku</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_daily_9x9.html">Daily Sudoku</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_blank_grid_9x9.html">Blank Grid</a></p>
+</div>
+<div class="mainnav">
+<p><a href="smartsolver.html">Sudoku Solver</a></p>
+</div>
+<div class="mainnav" id="active">
+<p><a href="sudoku_solving_techniques_9x9.html">Solving Techniques</a></p>
+</div>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div id="technique">
+<h2>Sudoku Solving Techniques</h2>
+<h3>Forcing Chain</h3>
+<p>Forcing Chain is very similar to Coloring.  But instead of considering a digit that is a candidate for exactly two cells in a row, in a column or in a 3x3 box, we are looking at a cell that has exactly two digits as its candidates.</p>
+<p>Consider the following Sudoku puzzle:</p>
+<div>
+<img src="img/forcechain1.png" alt="a Sudoku puzzle using Forcing Chain technique" class="fleft">
+<div class="inside_ad">
+<script async src="../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- 336x280, new image ad in text created 1/19/11 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-1102313833018298"
+     data-ad-slot="0361750879"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+</div>
+<div class="clearfloat">
+<p>The yellow cell has exactly two digits 1 and 4 as its candidates.  Let us follow the paths of these two cases:</p>  
+<ol class="technique">
+<li>If the yellow cell is 1, then the green cell that shares the common column with the yellow cell must be 7.  The red cell that shares the common 3x3 box with the green cell must be 3.  Then the pink cell that shares the common column with the red cell and shares the common 3x3 box with the yellow cell must be 4.  Now the blue cell that shares the common column with the pink cell cannot be 4.</li>
+<li>If the yellow cell is 4, then the blue cell that shares the same row with the yellow cell cannot be 4.</li>
+</ol>
+<p>In either case, the blue cell cannot be 4.  Therefore the digit 4 can be safely eliminated as a candidate from the blue cell.</p>
+<p>Similar to Coloring, this technique can also help to confirm a digit for a cell.  In the following puzzle:</p>
+</div>
+<div>
+<img src="img/forcechain2.png" alt="another Sudoku puzzle using Forcing Chain technique" class="fright">
+<div class="inside_ad2">
+<script async src="../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- 336x280, new new text ad in text created 2/26/11 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-1102313833018298"
+     data-ad-slot="0247031286"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+</div>
+<div class="clearfloat">
+<p>The yellow cell has exactly two candidates: 1 and 4.  Let us follow the paths of these two cases:</p>
+<ol class="technique">
+<li>If the yellow cell is 1, then the blue cell that shares the same column with the yellow cell must be 2.</li>
+<li>If the yellow cell is 4, then the green cell that shares the common 3x3 box with the yellow cell cannot be 4 and the two green cells in the sixth column form a <a href="naked_pair.html">Naked Pair</a> pattern with digits 2 and 9 as their only candidates.  Therefore the red cell that shares the common column with these two green cells cannot be 2, and therefore must be 1.  Now we can see the blue cell that shares the common row with the red cell must be 2.</li>
+</ol>
+<p>In either case, the blue cell must be 2.  Therefore we can confirm that the blue cell is 2.</p>
+</div>
+</div>
+<div id="techniques_link">
+<a href="coloring.html">Previous</a> | <a href="sudoku_solving_techniques_9x9.html">List</a> | <a href="nishio.html">Next</a>
+</div>
+<div id="footer">
+<p>
+<a class="flink1" href="sudoku_rules.html">Sudoku Rules</a>
+<a class="flink1" href="privacy_policy.html" rel="nofollow">Privacy Policy</a>
+<a class="flink1" href="contact_sudoku_9x9.html" rel="nofollow">Contact Us</a>
+</p>
+<div id="smalltext">
+Copyright &copy; 2009-<span id="yr"></span> Sudoku9x9.com - All Rights Reserved.
+</div>
+</div>
+</div>
+<script type="text/javascript">
+var d=new Date();
+document.getElementById("yr").innerHTML=d.getFullYear()+" ";
+</script>
+</body>
+
+<!-- Mirrored from sudoku9x9.com/forcing_chain.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:34:26 GMT -->
+</html>
+

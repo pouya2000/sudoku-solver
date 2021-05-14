@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<!-- Mirrored from sudoku9x9.com/howtosolve.php by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:33:38 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>How to Solve Sudoku Puzzles Step by Step</title>
+<meta name="description" content="Learn how to solve Sudoku puzzles by examples.  Explains each step to you while solving your puzzles.">
+<meta name="keywords" content="step by step Sudoku solver, teaching Sudoku by examples">
+
+<link rel="stylesheet" type="text/css" href="css/bstd7.css">
+<script type="text/javascript" src="l2/btsudoku2.html">
+</script>
+<link rel="icon" href="favicon.ico">
+<link rel="shortcut icon" href="favicon.ico">
+<script type="text/javascript">
+var origval=new Array(1001);
+</script>
+</head>
+<body>
+<script type="text/javascript">
+  sbuttoncolor="#a0a033";
+  smcls="rp1 rp1o";
+  ncls="rp1";
+  osmcls="rp2 rp2o";
+  oncls="rp2";
+  green="#9aff67";
+  yellow="#f0f070";
+  red="#ff8945";
+  blue="#45a6f0";
+  hnobgclr="#f0e0a6";
+  hyellow="#f0e58c";
+  pgsclr="#a9caff";
+  cgsclr="#69a2f3";
+  setcolor=new Array(8);
+  setcolor[0]=red;
+  setcolor[1]=blue;
+  setcolor[5]=green;
+  setcolor[6]="#c42c61";
+  setcolor[7]="#1f2160";
+  setcolor[2]="#8ea778";
+  setcolor[3]="#a64227";
+  setcolor[4]="#7ebc8f";
+  lockcdcolor=sbuttoncolor;
+  var clrcount;
+  var orig=new Array(0,0,9,0,4,0,3,0,3,3,0,0,9,0,4,0,0,0,0,9,5,0,0,5,0,0,0,0,4,0,0,0,0,6,2,0,3,0,4,3,0,0,0,0,9,0,5,0,3,0,8,0,0,4,0,3,0,0,6,0,0,8,0,3,0,2,0,7,0,0,0,5,3,0,0,0,0,0,6,0,0);
+  var solution=new Array(2,8,3,1,7,5,6,4,9,4,7,9,8,6,2,1,3,5,5,6,1,3,9,4,7,8,2,9,1,8,7,4,3,2,5,6,7,4,5,6,2,8,9,1,3,3,2,6,9,5,1,4,7,8,1,9,7,5,3,6,8,2,4,8,5,4,2,1,9,3,6,7,6,3,2,4,8,7,5,9,1);</script>
+<div id="container">
+<div id="header">
+<div id="headerl">
+<div id="titlepic">
+<a href="index.html"><img src="img/title_small.png" alt="Sudoku 9x9.com" title="Sudoku 9x9.com"></a>
+</div>
+</div>
+<div id="headerr">
+<div id="smrttitle">
+<h1>Smart Sudoku Solver</h1>
+<h3> - Show How to Solve Sudoku Puzzles Step by Step</h3>
+<p>(Learning Sudoku Solving Techniques by Examples)</p>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div id="levelrp"><div class="navlist" onclick="window.location='howtosolve7e60.html?level=1'">
+<p><a href="howtosolve7e60.html?level=1" title="Very Easy" >Kindergarten</a></p>
+</div>
+<div class="navlist" id="current2" onclick="window.location='howtosolve6435.html?level=2'">
+<p><a href="howtosolve6435.html?level=2" title="Easy" >Elementary</a></p>
+</div>
+<div class="navlist" onclick="window.location='howtosolve7054.html?level=3'">
+<p><a href="howtosolve7054.html?level=3" title="Intermediate" >High School</a></p>
+</div>
+<div class="navlist" onclick="window.location='howtosolvebd84.html?level=4'">
+<p><a href="howtosolvebd84.html?level=4" title="Hard" >College</a></p>
+</div>
+<div class="navlist" onclick="window.location='howtosolvea1f4.html?level=5'">
+<p><a href="howtosolvea1f4.html?level=5" title="Very Hard" >Graduate</a></p>
+</div>
+<div class="clearfloat"> </div></div><div id="rsidebar2">
+<div class="rightad_160_2">
+</div>
+</div>
+<div id="mblock">
+<div id="cblockr_t">
+<div id="rptitle">
+<h2>Solve Sudoku Puzzle Step by Step</h2><p id="puzzlenotitle">(L2:&nbsp;#106565164)</p></div>
+</div>
+<div id="rplaygrid">
+<div id="content1">
+<div id="playtable2">
+<div id="col0" class="labc"></div><div id="col1" class="labc">C1</div><div id="col2" class="labc">C2</div><div id="col3" class="labc">C3</div><div id="col4" class="labc">C4</div><div id="col5" class="labc">C5</div><div id="col6" class="labc">C6</div><div id="col7" class="labc">C7</div><div id="col8" class="labc">C8</div><div id="col9" class="labc">C9</div><div class="clearfloat"></div><div id="rowlbl"><div id="row1" class="labr">R1</div><div id="row2" class="labr">R2</div><div id="row3" class="labr">R3</div><div id="row4" class="labr">R4</div><div id="row5" class="labr">R5</div><div id="row6" class="labr">R6</div><div id="row7" class="labr">R7</div><div id="row8" class="labr">R8</div><div id="row9" class="labr">R9</div></div><div id="tbg"><div class="sbg">S1</div><div class="sbg">S2</div><div class="sbg">S3</div><div class="clearfloat"></div><div class="sbg">S4</div><div class="sbg">S5</div><div class="sbg">S6</div><div class="clearfloat"></div><div class="sbg">S7</div><div class="sbg">S8</div><div class="sbg">S9</div><div class="clearfloat"></div></div><div id="mtbl"><div id="sgrid0" class="subgrid"><div id="cell0" class="rpt1 bt4 bl4"><div class="rp1" id="c0" name="c0"></div><div class="rp2" id="oc0"></div></div><div id="cell1" class="rpt1 bt4"><div class="rp1" id="c1" name="c1"></div><div class="rp2" id="oc1"></div></div><div id="cell2" class="rpt1 bt4 bc"><div class="rp1" id="c2" name="c2">3</div><div class="rp2" id="oc2"></div></div><div class="clearfloat"></div><div id="cell9" class="rpt1 bl4 bc"><div class="rp1" id="c9" name="c9">4</div><div class="rp2" id="oc9"></div></div><div id="cell10" class="rpt1"><div class="rp1" id="c10" name="c10"></div><div class="rp2" id="oc10"></div></div><div id="cell11" class="rpt1"><div class="rp1" id="c11" name="c11"></div><div class="rp2" id="oc11"></div></div><div class="clearfloat"></div><div id="cell18" class="rpt1 bb2 bl4"><div class="rp1" id="c18" name="c18"></div><div class="rp2" id="oc18"></div></div><div id="cell19" class="rpt1 bb2 bc"><div class="rp1" id="c19" name="c19">6</div><div class="rp2" id="oc19"></div></div><div id="cell20" class="rpt1 bb2 bc"><div class="rp1" id="c20" name="c20">1</div><div class="rp2" id="oc20"></div></div><div class="clearfloat"></div></div><div id="sgrid1" class="subgrid"><div id="cell3" class="rpt1 bt4 bl2"><div class="rp1" id="c3" name="c3"></div><div class="rp2" id="oc3"></div></div><div id="cell4" class="rpt1 bt4 bc"><div class="rp1" id="c4" name="c4">7</div><div class="rp2" id="oc4"></div></div><div id="cell5" class="rpt1 bt4"><div class="rp1" id="c5" name="c5"></div><div class="rp2" id="oc5"></div></div><div class="clearfloat"></div><div id="cell12" class="rpt1 bl2 bc"><div class="rp1" id="c12" name="c12">8</div><div class="rp2" id="oc12"></div></div><div id="cell13" class="rpt1"><div class="rp1" id="c13" name="c13"></div><div class="rp2" id="oc13"></div></div><div id="cell14" class="rpt1 bc"><div class="rp1" id="c14" name="c14">2</div><div class="rp2" id="oc14"></div></div><div class="clearfloat"></div><div id="cell21" class="rpt1 bb2 bl2"><div class="rp1" id="c21" name="c21"></div><div class="rp2" id="oc21"></div></div><div id="cell22" class="rpt1 bb2"><div class="rp1" id="c22" name="c22"></div><div class="rp2" id="oc22"></div></div><div id="cell23" class="rpt1 bb2 bc"><div class="rp1" id="c23" name="c23">4</div><div class="rp2" id="oc23"></div></div><div class="clearfloat"></div></div><div id="sgrid2" class="subgrid"><div id="cell6" class="rpt1 bt4 bl2 bc"><div class="rp1" id="c6" name="c6">6</div><div class="rp2" id="oc6"></div></div><div id="cell7" class="rpt1 bt4"><div class="rp1" id="c7" name="c7"></div><div class="rp2" id="oc7"></div></div><div id="cell8" class="rpt1 bt4 br4 bc"><div class="rp1" id="c8" name="c8">9</div><div class="rp2" id="oc8"></div></div><div class="clearfloat"></div><div id="cell15" class="rpt1 bl2"><div class="rp1" id="c15" name="c15"></div><div class="rp2" id="oc15"></div></div><div id="cell16" class="rpt1"><div class="rp1" id="c16" name="c16"></div><div class="rp2" id="oc16"></div></div><div id="cell17" class="rpt1 br4"><div class="rp1" id="c17" name="c17"></div><div class="rp2" id="oc17"></div></div><div class="clearfloat"></div><div id="cell24" class="rpt1 bb2 bl2"><div class="rp1" id="c24" name="c24"></div><div class="rp2" id="oc24"></div></div><div id="cell25" class="rpt1 bb2"><div class="rp1" id="c25" name="c25"></div><div class="rp2" id="oc25"></div></div><div id="cell26" class="rpt1 bb2 br4"><div class="rp1" id="c26" name="c26"></div><div class="rp2" id="oc26"></div></div><div class="clearfloat"></div></div><div class="clearfloat"></div><div id="sgrid3" class="subgrid"><div id="cell27" class="rpt1 bl4"><div class="rp1" id="c27" name="c27"></div><div class="rp2" id="oc27"></div></div><div id="cell28" class="rpt1 bc"><div class="rp1" id="c28" name="c28">1</div><div class="rp2" id="oc28"></div></div><div id="cell29" class="rpt1"><div class="rp1" id="c29" name="c29"></div><div class="rp2" id="oc29"></div></div><div class="clearfloat"></div><div id="cell36" class="rpt1 bl4 bc"><div class="rp1" id="c36" name="c36">7</div><div class="rp2" id="oc36"></div></div><div id="cell37" class="rpt1"><div class="rp1" id="c37" name="c37"></div><div class="rp2" id="oc37"></div></div><div id="cell38" class="rpt1 bc"><div class="rp1" id="c38" name="c38">5</div><div class="rp2" id="oc38"></div></div><div class="clearfloat"></div><div id="cell45" class="rpt1 bb2 bl4"><div class="rp1" id="c45" name="c45"></div><div class="rp2" id="oc45"></div></div><div id="cell46" class="rpt1 bb2 bc"><div class="rp1" id="c46" name="c46">2</div><div class="rp2" id="oc46"></div></div><div id="cell47" class="rpt1 bb2"><div class="rp1" id="c47" name="c47"></div><div class="rp2" id="oc47"></div></div><div class="clearfloat"></div></div><div id="sgrid4" class="subgrid"><div id="cell30" class="rpt1 bl2"><div class="rp1" id="c30" name="c30"></div><div class="rp2" id="oc30"></div></div><div id="cell31" class="rpt1"><div class="rp1" id="c31" name="c31"></div><div class="rp2" id="oc31"></div></div><div id="cell32" class="rpt1"><div class="rp1" id="c32" name="c32"></div><div class="rp2" id="oc32"></div></div><div class="clearfloat"></div><div id="cell39" class="rpt1 bl2 bc"><div class="rp1" id="c39" name="c39">6</div><div class="rp2" id="oc39"></div></div><div id="cell40" class="rpt1"><div class="rp1" id="c40" name="c40"></div><div class="rp2" id="oc40"></div></div><div id="cell41" class="rpt1"><div class="rp1" id="c41" name="c41"></div><div class="rp2" id="oc41"></div></div><div class="clearfloat"></div><div id="cell48" class="rpt1 bb2 bl2 bc"><div class="rp1" id="c48" name="c48">9</div><div class="rp2" id="oc48"></div></div><div id="cell49" class="rpt1 bb2"><div class="rp1" id="c49" name="c49"></div><div class="rp2" id="oc49"></div></div><div id="cell50" class="rpt1 bb2 bc"><div class="rp1" id="c50" name="c50">1</div><div class="rp2" id="oc50"></div></div><div class="clearfloat"></div></div><div id="sgrid5" class="subgrid"><div id="cell33" class="rpt1 bl2 bc"><div class="rp1" id="c33" name="c33">2</div><div class="rp2" id="oc33"></div></div><div id="cell34" class="rpt1 bc"><div class="rp1" id="c34" name="c34">5</div><div class="rp2" id="oc34"></div></div><div id="cell35" class="rpt1 br4"><div class="rp1" id="c35" name="c35"></div><div class="rp2" id="oc35"></div></div><div class="clearfloat"></div><div id="cell42" class="rpt1 bl2"><div class="rp1" id="c42" name="c42"></div><div class="rp2" id="oc42"></div></div><div id="cell43" class="rpt1"><div class="rp1" id="c43" name="c43"></div><div class="rp2" id="oc43"></div></div><div id="cell44" class="rpt1 br4 bc"><div class="rp1" id="c44" name="c44">3</div><div class="rp2" id="oc44"></div></div><div class="clearfloat"></div><div id="cell51" class="rpt1 bb2 bl2"><div class="rp1" id="c51" name="c51"></div><div class="rp2" id="oc51"></div></div><div id="cell52" class="rpt1 bb2"><div class="rp1" id="c52" name="c52"></div><div class="rp2" id="oc52"></div></div><div id="cell53" class="rpt1 bb2 br4 bc"><div class="rp1" id="c53" name="c53">8</div><div class="rp2" id="oc53"></div></div><div class="clearfloat"></div></div><div class="clearfloat"></div><div id="sgrid6" class="subgrid"><div id="cell54" class="rpt1 bl4"><div class="rp1" id="c54" name="c54"></div><div class="rp2" id="oc54"></div></div><div id="cell55" class="rpt1 bc"><div class="rp1" id="c55" name="c55">9</div><div class="rp2" id="oc55"></div></div><div id="cell56" class="rpt1"><div class="rp1" id="c56" name="c56"></div><div class="rp2" id="oc56"></div></div><div class="clearfloat"></div><div id="cell63" class="rpt1 bl4 bc"><div class="rp1" id="c63" name="c63">8</div><div class="rp2" id="oc63"></div></div><div id="cell64" class="rpt1"><div class="rp1" id="c64" name="c64"></div><div class="rp2" id="oc64"></div></div><div id="cell65" class="rpt1 bc"><div class="rp1" id="c65" name="c65">4</div><div class="rp2" id="oc65"></div></div><div class="clearfloat"></div><div id="cell72" class="rpt1 bb4 bl4 bc"><div class="rp1" id="c72" name="c72">6</div><div class="rp2" id="oc72"></div></div><div id="cell73" class="rpt1 bb4"><div class="rp1" id="c73" name="c73"></div><div class="rp2" id="oc73"></div></div><div id="cell74" class="rpt1 bb4"><div class="rp1" id="c74" name="c74"></div><div class="rp2" id="oc74"></div></div><div class="clearfloat"></div></div><div id="sgrid7" class="subgrid"><div id="cell57" class="rpt1 bl2"><div class="rp1" id="c57" name="c57"></div><div class="rp2" id="oc57"></div></div><div id="cell58" class="rpt1 bc"><div class="rp1" id="c58" name="c58">3</div><div class="rp2" id="oc58"></div></div><div id="cell59" class="rpt1"><div class="rp1" id="c59" name="c59"></div><div class="rp2" id="oc59"></div></div><div class="clearfloat"></div><div id="cell66" class="rpt1 bl2"><div class="rp1" id="c66" name="c66"></div><div class="rp2" id="oc66"></div></div><div id="cell67" class="rpt1 bc"><div class="rp1" id="c67" name="c67">1</div><div class="rp2" id="oc67"></div></div><div id="cell68" class="rpt1"><div class="rp1" id="c68" name="c68"></div><div class="rp2" id="oc68"></div></div><div class="clearfloat"></div><div id="cell75" class="rpt1 bb4 bl2"><div class="rp1" id="c75" name="c75"></div><div class="rp2" id="oc75"></div></div><div id="cell76" class="rpt1 bb4"><div class="rp1" id="c76" name="c76"></div><div class="rp2" id="oc76"></div></div><div id="cell77" class="rpt1 bb4"><div class="rp1" id="c77" name="c77"></div><div class="rp2" id="oc77"></div></div><div class="clearfloat"></div></div><div id="sgrid8" class="subgrid"><div id="cell60" class="rpt1 bl2"><div class="rp1" id="c60" name="c60"></div><div class="rp2" id="oc60"></div></div><div id="cell61" class="rpt1 bc"><div class="rp1" id="c61" name="c61">2</div><div class="rp2" id="oc61"></div></div><div id="cell62" class="rpt1 br4"><div class="rp1" id="c62" name="c62"></div><div class="rp2" id="oc62"></div></div><div class="clearfloat"></div><div id="cell69" class="rpt1 bl2"><div class="rp1" id="c69" name="c69"></div><div class="rp2" id="oc69"></div></div><div id="cell70" class="rpt1"><div class="rp1" id="c70" name="c70"></div><div class="rp2" id="oc70"></div></div><div id="cell71" class="rpt1 br4 bc"><div class="rp1" id="c71" name="c71">7</div><div class="rp2" id="oc71"></div></div><div class="clearfloat"></div><div id="cell78" class="rpt1 bb4 bl2 bc"><div class="rp1" id="c78" name="c78">5</div><div class="rp2" id="oc78"></div></div><div id="cell79" class="rpt1 bb4"><div class="rp1" id="c79" name="c79"></div><div class="rp2" id="oc79"></div></div><div id="cell80" class="rpt1 bb4 br4"><div class="rp1" id="c80" name="c80"></div><div class="rp2" id="oc80"></div></div><div class="clearfloat"></div></div><div class="clearfloat"></div></div><div class="clearfloat"></div></div>
+</div>
+<div id="rpcp">
+<div id="swsum" class="igen5" onclick="dpsummary()">Summary</div>
+<div id="restart" class="igen5" onclick="back2this(-1)">Restart</div>
+<div id="back1step" class="igen5" onclick="back2this(bstepno)">Back one step</div>
+<div id="nextstep" class="igen5" onclick="nextstep()">Next</div>
+
+<div class="clearfloat"></div>
+</div>
+</div>
+<div id="msggrid">
+<div id="msgup" class="updown1" onclick="moveup()">&#9650;</div>
+<h4 id="msgtt">Message Board</h4>
+<div id="msgdown" class="updown1" onclick="movedown()">&#9660;</div>
+<div id="msgbrdwrap">
+<div id="msgbrd">
+<div id="msgbrd1"></div>
+<div id="ndispstep">
+<div id="msgbrd2"></div>
+<div id="chain1" class="dpchain1"></div>
+<div id="chain2" class="dpchain2"></div>
+<div class="clearfloat"></div>
+</div>
+<div id="tmpmsg"><p>Press "Next" to start ...</p></div>
+</div>
+</div>
+</div>
+<div class="clearfloat"></div>
+<div id="sumwrap">
+<div id="lup"></div><div id="rup"></div>
+<div class="clearfloat"></div>
+<div id="sumbrdo">
+<div id="sumbrd"></div>
+<div id="sumbrdl"></div>
+<div id="sumbrdr"></div>
+<div class="clearfloat"></div>
+</div>
+</div>
+<div id="lbot">
+<div id="gplay">
+<p>Play Sudoku games:</p>
+<p><a href="index.html">Home</a><a href="mobile/index.html">Mobile</a><a href="tablet/index.html">Tablet</a><a href="phone/index.html">Phone</a></p> 
+</div>
+<div id="dpfooter">
+<p>Copyright &copy;2021 Sudoku9x9.com - All Rights Reserved. <a href="privacy_policy.html" rel="nofollow">Privacy Policy</a></p>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div id="rbot">
+<div id="msglink">
+<p><a href="howtosolve.html">Solve another random puzzle</a></p><p><a href="howtosolve_expert.html">Solve puzzles from Expert Area</a></p><p><a href="smartsolver.html">Enter your own puzzle</a></p></div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<script type="text/javascript">
+  for (i=0;i<81;i++)
+  {
+   document.getElementById('c'+i).className=ncls;
+   if (document.getElementById('c'+i).innerHTML.length==1 && (("123456789").indexOf(document.getElementById('c'+i).innerHTML) > -1)) orig[i]=document.getElementById('c'+i).innerHTML*1;
+   else orig[i]=0;
+  }
+  basic();
+  resetbtn("restart");
+  resetbtn("swsum");
+  resetbtn("back1step");
+</script>
+</body>
+
+<!-- Mirrored from sudoku9x9.com/howtosolve.php by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:33:40 GMT -->
+</html>
+

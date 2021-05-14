@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<!-- Mirrored from sudoku9x9.com/smartsolver.php by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:33:12 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Sudoku Solver - Solve Your Puzzles Step by Step</title>
+<meta name="description" content="Sudoku solver - the last resort for your puzzles.  Our solver solves all valid Sudoku puzzles that have unique solution with an option to show the details of each step - a good way to learn the techniques.">
+<meta name="keywords" content="Sudoku solver, Sudoku solution, blank grid, online sudoku, sudoku puzzles, free sudoku, sudoku, 9x9">
+
+<link rel="stylesheet" type="text/css" href="css/bstd7.css">
+<script type="text/javascript" src="l2/bssudoku3.html">
+</script>
+<script type="text/javascript" src="l2/bpreload1.html"> 
+</script>
+<link rel="icon" href="favicon.ico">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<body>
+
+  
+<script type="text/javascript">
+  hlcolor="#ffdd60";
+  sbuttoncolor="#a0a033";
+  dbuttoncolor="#f0f6f0";
+  mobuttoncolor="#f8fbf8";
+  nobgclr="#fffff0";
+  numberselected=0;
+  mclength=1;
+  fh=0;
+  cluearr=new Array(81);
+  sltnarr=new Array(81);
+  cluestr="";
+  sltnstr="";
+</script>
+<div id="container">
+<div id="header">
+<div id="headerl">
+<div id="titlepic">
+<a href="index.html"><img src="img/title_small.png" alt="Sudoku 9x9.com" title="Sudoku 9x9.com"></a>
+</div>
+</div>
+<div id="headerr">
+<div id="title">
+<h1>Sudoku Solver</h1>
+</div>
+<div id="hnavigator">
+<div class="mainnav">
+<p><a href="index.html">Free Online Sudoku</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_daily_9x9.html">Daily Sudoku</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_blank_grid_9x9.html">Blank Grid</a></p>
+</div>
+<div class="mainnav" id="active">
+<p><a href="smartsolver.html">Sudoku Solver</a></p>
+</div>
+<div class="mainnav">
+<p><a href="sudoku_solving_techniques_9x9.html">Solving Techniques</a></p>
+</div>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div id="rsidebar">
+<div class="rightad_160">
+<script async src="../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- solver right side bar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-5838219831532222"
+     data-ad-slot="4703770148"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div>
+<div id="cblock">
+<div id="cblockr">
+<div id="cblockr_t">
+<div id="solvertitle">
+<h2>Sudoku Solver - Solve Your Sudoku Puzzles</h2>
+<div id="bcmsg"><span id="broadcastmsg"></span></div>
+</div>
+<div id="saveblk">&nbsp;</div>
+<div class="clearfloat"></div>
+</div>
+<div id="cblockr_l">
+<div id="middlecol" class="solverm">
+<div id="content1">
+<form action="javascript: void(0)" onsubmit="return false;" autocomplete="off" class="nopad">
+<div id="playtable">
+<div id="cell0" class="t1 bt4 bl4"><textarea class="i1" id="c0" name="c0" rows="1" cols="1" onKeyPress="return cn(event,0)" onKeyUp="sfs(0)" onKeyDown="return move(event,0)"  onClick="hl(0)" onmouseover="cc(0)" onmouseout="rc(0)"></textarea></div><div id="cell1" class="t1 bt4"><textarea class="i1" id="c1" name="c1" rows="1" cols="1" onKeyPress="return cn(event,1)" onKeyUp="sfs(1)" onKeyDown="return move(event,1)"  onClick="hl(1)" onmouseover="cc(1)" onmouseout="rc(1)"></textarea></div><div id="cell2" class="t1 bt4"><textarea class="i1" id="c2" name="c2" rows="1" cols="1" onKeyPress="return cn(event,2)" onKeyUp="sfs(2)" onKeyDown="return move(event,2)"  onClick="hl(2)" onmouseover="cc(2)" onmouseout="rc(2)"></textarea></div><div id="cell3" class="t1 bt4 bl2"><textarea class="i1" id="c3" name="c3" rows="1" cols="1" onKeyPress="return cn(event,3)" onKeyUp="sfs(3)" onKeyDown="return move(event,3)"  onClick="hl(3)" onmouseover="cc(3)" onmouseout="rc(3)"></textarea></div><div id="cell4" class="t1 bt4"><textarea class="i1" id="c4" name="c4" rows="1" cols="1" onKeyPress="return cn(event,4)" onKeyUp="sfs(4)" onKeyDown="return move(event,4)"  onClick="hl(4)" onmouseover="cc(4)" onmouseout="rc(4)"></textarea></div><div id="cell5" class="t1 bt4"><textarea class="i1" id="c5" name="c5" rows="1" cols="1" onKeyPress="return cn(event,5)" onKeyUp="sfs(5)" onKeyDown="return move(event,5)"  onClick="hl(5)" onmouseover="cc(5)" onmouseout="rc(5)"></textarea></div><div id="cell6" class="t1 bt4 bl2"><textarea class="i1" id="c6" name="c6" rows="1" cols="1" onKeyPress="return cn(event,6)" onKeyUp="sfs(6)" onKeyDown="return move(event,6)"  onClick="hl(6)" onmouseover="cc(6)" onmouseout="rc(6)"></textarea></div><div id="cell7" class="t1 bt4"><textarea class="i1" id="c7" name="c7" rows="1" cols="1" onKeyPress="return cn(event,7)" onKeyUp="sfs(7)" onKeyDown="return move(event,7)"  onClick="hl(7)" onmouseover="cc(7)" onmouseout="rc(7)"></textarea></div><div id="cell8" class="t1 bt4 br4"><textarea class="i1" id="c8" name="c8" rows="1" cols="1" onKeyPress="return cn(event,8)" onKeyUp="sfs(8)" onKeyDown="return move(event,8)"  onClick="hl(8)" onmouseover="cc(8)" onmouseout="rc(8)"></textarea></div><div id="csr1"></div><div id="csr1d"></div><div id="cell9" class="t1 bl4"><textarea class="i1" id="c9" name="c9" rows="1" cols="1" onKeyPress="return cn(event,9)" onKeyUp="sfs(9)" onKeyDown="return move(event,9)"  onClick="hl(9)" onmouseover="cc(9)" onmouseout="rc(9)"></textarea></div><div id="cell10" class="t1"><textarea class="i1" id="c10" name="c10" rows="1" cols="1" onKeyPress="return cn(event,10)" onKeyUp="sfs(10)" onKeyDown="return move(event,10)"  onClick="hl(10)" onmouseover="cc(10)" onmouseout="rc(10)"></textarea></div><div id="cell11" class="t1"><textarea class="i1" id="c11" name="c11" rows="1" cols="1" onKeyPress="return cn(event,11)" onKeyUp="sfs(11)" onKeyDown="return move(event,11)"  onClick="hl(11)" onmouseover="cc(11)" onmouseout="rc(11)"></textarea></div><div id="cell12" class="t1 bl2"><textarea class="i1" id="c12" name="c12" rows="1" cols="1" onKeyPress="return cn(event,12)" onKeyUp="sfs(12)" onKeyDown="return move(event,12)"  onClick="hl(12)" onmouseover="cc(12)" onmouseout="rc(12)"></textarea></div><div id="cell13" class="t1"><textarea class="i1" id="c13" name="c13" rows="1" cols="1" onKeyPress="return cn(event,13)" onKeyUp="sfs(13)" onKeyDown="return move(event,13)"  onClick="hl(13)" onmouseover="cc(13)" onmouseout="rc(13)"></textarea></div><div id="cell14" class="t1"><textarea class="i1" id="c14" name="c14" rows="1" cols="1" onKeyPress="return cn(event,14)" onKeyUp="sfs(14)" onKeyDown="return move(event,14)"  onClick="hl(14)" onmouseover="cc(14)" onmouseout="rc(14)"></textarea></div><div id="cell15" class="t1 bl2"><textarea class="i1" id="c15" name="c15" rows="1" cols="1" onKeyPress="return cn(event,15)" onKeyUp="sfs(15)" onKeyDown="return move(event,15)"  onClick="hl(15)" onmouseover="cc(15)" onmouseout="rc(15)"></textarea></div><div id="cell16" class="t1"><textarea class="i1" id="c16" name="c16" rows="1" cols="1" onKeyPress="return cn(event,16)" onKeyUp="sfs(16)" onKeyDown="return move(event,16)"  onClick="hl(16)" onmouseover="cc(16)" onmouseout="rc(16)"></textarea></div><div id="cell17" class="t1 br4"><textarea class="i1" id="c17" name="c17" rows="1" cols="1" onKeyPress="return cn(event,17)" onKeyUp="sfs(17)" onKeyDown="return move(event,17)"  onClick="hl(17)" onmouseover="cc(17)" onmouseout="rc(17)"></textarea></div><div id="csr2"></div><div id="csr2d"></div><div id="cell18" class="t1 bb2 bl4"><textarea class="i1" id="c18" name="c18" rows="1" cols="1" onKeyPress="return cn(event,18)" onKeyUp="sfs(18)" onKeyDown="return move(event,18)"  onClick="hl(18)" onmouseover="cc(18)" onmouseout="rc(18)"></textarea></div><div id="cell19" class="t1 bb2"><textarea class="i1" id="c19" name="c19" rows="1" cols="1" onKeyPress="return cn(event,19)" onKeyUp="sfs(19)" onKeyDown="return move(event,19)"  onClick="hl(19)" onmouseover="cc(19)" onmouseout="rc(19)"></textarea></div><div id="cell20" class="t1 bb2"><textarea class="i1" id="c20" name="c20" rows="1" cols="1" onKeyPress="return cn(event,20)" onKeyUp="sfs(20)" onKeyDown="return move(event,20)"  onClick="hl(20)" onmouseover="cc(20)" onmouseout="rc(20)"></textarea></div><div id="cell21" class="t1 bb2 bl2"><textarea class="i1" id="c21" name="c21" rows="1" cols="1" onKeyPress="return cn(event,21)" onKeyUp="sfs(21)" onKeyDown="return move(event,21)"  onClick="hl(21)" onmouseover="cc(21)" onmouseout="rc(21)"></textarea></div><div id="cell22" class="t1 bb2"><textarea class="i1" id="c22" name="c22" rows="1" cols="1" onKeyPress="return cn(event,22)" onKeyUp="sfs(22)" onKeyDown="return move(event,22)"  onClick="hl(22)" onmouseover="cc(22)" onmouseout="rc(22)"></textarea></div><div id="cell23" class="t1 bb2"><textarea class="i1" id="c23" name="c23" rows="1" cols="1" onKeyPress="return cn(event,23)" onKeyUp="sfs(23)" onKeyDown="return move(event,23)"  onClick="hl(23)" onmouseover="cc(23)" onmouseout="rc(23)"></textarea></div><div id="cell24" class="t1 bb2 bl2"><textarea class="i1" id="c24" name="c24" rows="1" cols="1" onKeyPress="return cn(event,24)" onKeyUp="sfs(24)" onKeyDown="return move(event,24)"  onClick="hl(24)" onmouseover="cc(24)" onmouseout="rc(24)"></textarea></div><div id="cell25" class="t1 bb2"><textarea class="i1" id="c25" name="c25" rows="1" cols="1" onKeyPress="return cn(event,25)" onKeyUp="sfs(25)" onKeyDown="return move(event,25)"  onClick="hl(25)" onmouseover="cc(25)" onmouseout="rc(25)"></textarea></div><div id="cell26" class="t1 bb2 br4"><textarea class="i1" id="c26" name="c26" rows="1" cols="1" onKeyPress="return cn(event,26)" onKeyUp="sfs(26)" onKeyDown="return move(event,26)"  onClick="hl(26)" onmouseover="cc(26)" onmouseout="rc(26)"></textarea></div><div id="csr3"></div><div id="csr3d"></div><div id="cell27" class="t1 bl4"><textarea class="i1" id="c27" name="c27" rows="1" cols="1" onKeyPress="return cn(event,27)" onKeyUp="sfs(27)" onKeyDown="return move(event,27)"  onClick="hl(27)" onmouseover="cc(27)" onmouseout="rc(27)"></textarea></div><div id="cell28" class="t1"><textarea class="i1" id="c28" name="c28" rows="1" cols="1" onKeyPress="return cn(event,28)" onKeyUp="sfs(28)" onKeyDown="return move(event,28)"  onClick="hl(28)" onmouseover="cc(28)" onmouseout="rc(28)"></textarea></div><div id="cell29" class="t1"><textarea class="i1" id="c29" name="c29" rows="1" cols="1" onKeyPress="return cn(event,29)" onKeyUp="sfs(29)" onKeyDown="return move(event,29)"  onClick="hl(29)" onmouseover="cc(29)" onmouseout="rc(29)"></textarea></div><div id="cell30" class="t1 bl2"><textarea class="i1" id="c30" name="c30" rows="1" cols="1" onKeyPress="return cn(event,30)" onKeyUp="sfs(30)" onKeyDown="return move(event,30)"  onClick="hl(30)" onmouseover="cc(30)" onmouseout="rc(30)"></textarea></div><div id="cell31" class="t1"><textarea class="i1" id="c31" name="c31" rows="1" cols="1" onKeyPress="return cn(event,31)" onKeyUp="sfs(31)" onKeyDown="return move(event,31)"  onClick="hl(31)" onmouseover="cc(31)" onmouseout="rc(31)"></textarea></div><div id="cell32" class="t1"><textarea class="i1" id="c32" name="c32" rows="1" cols="1" onKeyPress="return cn(event,32)" onKeyUp="sfs(32)" onKeyDown="return move(event,32)"  onClick="hl(32)" onmouseover="cc(32)" onmouseout="rc(32)"></textarea></div><div id="cell33" class="t1 bl2"><textarea class="i1" id="c33" name="c33" rows="1" cols="1" onKeyPress="return cn(event,33)" onKeyUp="sfs(33)" onKeyDown="return move(event,33)"  onClick="hl(33)" onmouseover="cc(33)" onmouseout="rc(33)"></textarea></div><div id="cell34" class="t1"><textarea class="i1" id="c34" name="c34" rows="1" cols="1" onKeyPress="return cn(event,34)" onKeyUp="sfs(34)" onKeyDown="return move(event,34)"  onClick="hl(34)" onmouseover="cc(34)" onmouseout="rc(34)"></textarea></div><div id="cell35" class="t1 br4"><textarea class="i1" id="c35" name="c35" rows="1" cols="1" onKeyPress="return cn(event,35)" onKeyUp="sfs(35)" onKeyDown="return move(event,35)"  onClick="hl(35)" onmouseover="cc(35)" onmouseout="rc(35)"></textarea></div><div id="csr4"></div><div id="csr4d"></div><div id="cell36" class="t1 bl4"><textarea class="i1" id="c36" name="c36" rows="1" cols="1" onKeyPress="return cn(event,36)" onKeyUp="sfs(36)" onKeyDown="return move(event,36)"  onClick="hl(36)" onmouseover="cc(36)" onmouseout="rc(36)"></textarea></div><div id="cell37" class="t1"><textarea class="i1" id="c37" name="c37" rows="1" cols="1" onKeyPress="return cn(event,37)" onKeyUp="sfs(37)" onKeyDown="return move(event,37)"  onClick="hl(37)" onmouseover="cc(37)" onmouseout="rc(37)"></textarea></div><div id="cell38" class="t1"><textarea class="i1" id="c38" name="c38" rows="1" cols="1" onKeyPress="return cn(event,38)" onKeyUp="sfs(38)" onKeyDown="return move(event,38)"  onClick="hl(38)" onmouseover="cc(38)" onmouseout="rc(38)"></textarea></div><div id="cell39" class="t1 bl2"><textarea class="i1" id="c39" name="c39" rows="1" cols="1" onKeyPress="return cn(event,39)" onKeyUp="sfs(39)" onKeyDown="return move(event,39)"  onClick="hl(39)" onmouseover="cc(39)" onmouseout="rc(39)"></textarea></div><div id="cell40" class="t1"><textarea class="i1" id="c40" name="c40" rows="1" cols="1" onKeyPress="return cn(event,40)" onKeyUp="sfs(40)" onKeyDown="return move(event,40)"  onClick="hl(40)" onmouseover="cc(40)" onmouseout="rc(40)"></textarea></div><div id="cell41" class="t1"><textarea class="i1" id="c41" name="c41" rows="1" cols="1" onKeyPress="return cn(event,41)" onKeyUp="sfs(41)" onKeyDown="return move(event,41)"  onClick="hl(41)" onmouseover="cc(41)" onmouseout="rc(41)"></textarea></div><div id="cell42" class="t1 bl2"><textarea class="i1" id="c42" name="c42" rows="1" cols="1" onKeyPress="return cn(event,42)" onKeyUp="sfs(42)" onKeyDown="return move(event,42)"  onClick="hl(42)" onmouseover="cc(42)" onmouseout="rc(42)"></textarea></div><div id="cell43" class="t1"><textarea class="i1" id="c43" name="c43" rows="1" cols="1" onKeyPress="return cn(event,43)" onKeyUp="sfs(43)" onKeyDown="return move(event,43)"  onClick="hl(43)" onmouseover="cc(43)" onmouseout="rc(43)"></textarea></div><div id="cell44" class="t1 br4"><textarea class="i1" id="c44" name="c44" rows="1" cols="1" onKeyPress="return cn(event,44)" onKeyUp="sfs(44)" onKeyDown="return move(event,44)"  onClick="hl(44)" onmouseover="cc(44)" onmouseout="rc(44)"></textarea></div><div id="csr5"></div><div id="csr5d"></div><div id="cell45" class="t1 bb2 bl4"><textarea class="i1" id="c45" name="c45" rows="1" cols="1" onKeyPress="return cn(event,45)" onKeyUp="sfs(45)" onKeyDown="return move(event,45)"  onClick="hl(45)" onmouseover="cc(45)" onmouseout="rc(45)"></textarea></div><div id="cell46" class="t1 bb2"><textarea class="i1" id="c46" name="c46" rows="1" cols="1" onKeyPress="return cn(event,46)" onKeyUp="sfs(46)" onKeyDown="return move(event,46)"  onClick="hl(46)" onmouseover="cc(46)" onmouseout="rc(46)"></textarea></div><div id="cell47" class="t1 bb2"><textarea class="i1" id="c47" name="c47" rows="1" cols="1" onKeyPress="return cn(event,47)" onKeyUp="sfs(47)" onKeyDown="return move(event,47)"  onClick="hl(47)" onmouseover="cc(47)" onmouseout="rc(47)"></textarea></div><div id="cell48" class="t1 bb2 bl2"><textarea class="i1" id="c48" name="c48" rows="1" cols="1" onKeyPress="return cn(event,48)" onKeyUp="sfs(48)" onKeyDown="return move(event,48)"  onClick="hl(48)" onmouseover="cc(48)" onmouseout="rc(48)"></textarea></div><div id="cell49" class="t1 bb2"><textarea class="i1" id="c49" name="c49" rows="1" cols="1" onKeyPress="return cn(event,49)" onKeyUp="sfs(49)" onKeyDown="return move(event,49)"  onClick="hl(49)" onmouseover="cc(49)" onmouseout="rc(49)"></textarea></div><div id="cell50" class="t1 bb2"><textarea class="i1" id="c50" name="c50" rows="1" cols="1" onKeyPress="return cn(event,50)" onKeyUp="sfs(50)" onKeyDown="return move(event,50)"  onClick="hl(50)" onmouseover="cc(50)" onmouseout="rc(50)"></textarea></div><div id="cell51" class="t1 bb2 bl2"><textarea class="i1" id="c51" name="c51" rows="1" cols="1" onKeyPress="return cn(event,51)" onKeyUp="sfs(51)" onKeyDown="return move(event,51)"  onClick="hl(51)" onmouseover="cc(51)" onmouseout="rc(51)"></textarea></div><div id="cell52" class="t1 bb2"><textarea class="i1" id="c52" name="c52" rows="1" cols="1" onKeyPress="return cn(event,52)" onKeyUp="sfs(52)" onKeyDown="return move(event,52)"  onClick="hl(52)" onmouseover="cc(52)" onmouseout="rc(52)"></textarea></div><div id="cell53" class="t1 bb2 br4"><textarea class="i1" id="c53" name="c53" rows="1" cols="1" onKeyPress="return cn(event,53)" onKeyUp="sfs(53)" onKeyDown="return move(event,53)"  onClick="hl(53)" onmouseover="cc(53)" onmouseout="rc(53)"></textarea></div><div id="csr6"></div><div id="csr6d"></div><div id="cell54" class="t1 bl4"><textarea class="i1" id="c54" name="c54" rows="1" cols="1" onKeyPress="return cn(event,54)" onKeyUp="sfs(54)" onKeyDown="return move(event,54)"  onClick="hl(54)" onmouseover="cc(54)" onmouseout="rc(54)"></textarea></div><div id="cell55" class="t1"><textarea class="i1" id="c55" name="c55" rows="1" cols="1" onKeyPress="return cn(event,55)" onKeyUp="sfs(55)" onKeyDown="return move(event,55)"  onClick="hl(55)" onmouseover="cc(55)" onmouseout="rc(55)"></textarea></div><div id="cell56" class="t1"><textarea class="i1" id="c56" name="c56" rows="1" cols="1" onKeyPress="return cn(event,56)" onKeyUp="sfs(56)" onKeyDown="return move(event,56)"  onClick="hl(56)" onmouseover="cc(56)" onmouseout="rc(56)"></textarea></div><div id="cell57" class="t1 bl2"><textarea class="i1" id="c57" name="c57" rows="1" cols="1" onKeyPress="return cn(event,57)" onKeyUp="sfs(57)" onKeyDown="return move(event,57)"  onClick="hl(57)" onmouseover="cc(57)" onmouseout="rc(57)"></textarea></div><div id="cell58" class="t1"><textarea class="i1" id="c58" name="c58" rows="1" cols="1" onKeyPress="return cn(event,58)" onKeyUp="sfs(58)" onKeyDown="return move(event,58)"  onClick="hl(58)" onmouseover="cc(58)" onmouseout="rc(58)"></textarea></div><div id="cell59" class="t1"><textarea class="i1" id="c59" name="c59" rows="1" cols="1" onKeyPress="return cn(event,59)" onKeyUp="sfs(59)" onKeyDown="return move(event,59)"  onClick="hl(59)" onmouseover="cc(59)" onmouseout="rc(59)"></textarea></div><div id="cell60" class="t1 bl2"><textarea class="i1" id="c60" name="c60" rows="1" cols="1" onKeyPress="return cn(event,60)" onKeyUp="sfs(60)" onKeyDown="return move(event,60)"  onClick="hl(60)" onmouseover="cc(60)" onmouseout="rc(60)"></textarea></div><div id="cell61" class="t1"><textarea class="i1" id="c61" name="c61" rows="1" cols="1" onKeyPress="return cn(event,61)" onKeyUp="sfs(61)" onKeyDown="return move(event,61)"  onClick="hl(61)" onmouseover="cc(61)" onmouseout="rc(61)"></textarea></div><div id="cell62" class="t1 br4"><textarea class="i1" id="c62" name="c62" rows="1" cols="1" onKeyPress="return cn(event,62)" onKeyUp="sfs(62)" onKeyDown="return move(event,62)"  onClick="hl(62)" onmouseover="cc(62)" onmouseout="rc(62)"></textarea></div><div id="csr7"></div><div id="csr7d"></div><div id="cell63" class="t1 bl4"><textarea class="i1" id="c63" name="c63" rows="1" cols="1" onKeyPress="return cn(event,63)" onKeyUp="sfs(63)" onKeyDown="return move(event,63)"  onClick="hl(63)" onmouseover="cc(63)" onmouseout="rc(63)"></textarea></div><div id="cell64" class="t1"><textarea class="i1" id="c64" name="c64" rows="1" cols="1" onKeyPress="return cn(event,64)" onKeyUp="sfs(64)" onKeyDown="return move(event,64)"  onClick="hl(64)" onmouseover="cc(64)" onmouseout="rc(64)"></textarea></div><div id="cell65" class="t1"><textarea class="i1" id="c65" name="c65" rows="1" cols="1" onKeyPress="return cn(event,65)" onKeyUp="sfs(65)" onKeyDown="return move(event,65)"  onClick="hl(65)" onmouseover="cc(65)" onmouseout="rc(65)"></textarea></div><div id="cell66" class="t1 bl2"><textarea class="i1" id="c66" name="c66" rows="1" cols="1" onKeyPress="return cn(event,66)" onKeyUp="sfs(66)" onKeyDown="return move(event,66)"  onClick="hl(66)" onmouseover="cc(66)" onmouseout="rc(66)"></textarea></div><div id="cell67" class="t1"><textarea class="i1" id="c67" name="c67" rows="1" cols="1" onKeyPress="return cn(event,67)" onKeyUp="sfs(67)" onKeyDown="return move(event,67)"  onClick="hl(67)" onmouseover="cc(67)" onmouseout="rc(67)"></textarea></div><div id="cell68" class="t1"><textarea class="i1" id="c68" name="c68" rows="1" cols="1" onKeyPress="return cn(event,68)" onKeyUp="sfs(68)" onKeyDown="return move(event,68)"  onClick="hl(68)" onmouseover="cc(68)" onmouseout="rc(68)"></textarea></div><div id="cell69" class="t1 bl2"><textarea class="i1" id="c69" name="c69" rows="1" cols="1" onKeyPress="return cn(event,69)" onKeyUp="sfs(69)" onKeyDown="return move(event,69)"  onClick="hl(69)" onmouseover="cc(69)" onmouseout="rc(69)"></textarea></div><div id="cell70" class="t1"><textarea class="i1" id="c70" name="c70" rows="1" cols="1" onKeyPress="return cn(event,70)" onKeyUp="sfs(70)" onKeyDown="return move(event,70)"  onClick="hl(70)" onmouseover="cc(70)" onmouseout="rc(70)"></textarea></div><div id="cell71" class="t1 br4"><textarea class="i1" id="c71" name="c71" rows="1" cols="1" onKeyPress="return cn(event,71)" onKeyUp="sfs(71)" onKeyDown="return move(event,71)"  onClick="hl(71)" onmouseover="cc(71)" onmouseout="rc(71)"></textarea></div><div id="csr8"></div><div id="csr8d"></div><div id="cell72" class="t1 bb4 bl4"><textarea class="i1" id="c72" name="c72" rows="1" cols="1" onKeyPress="return cn(event,72)" onKeyUp="sfs(72)" onKeyDown="return move(event,72)"  onClick="hl(72)" onmouseover="cc(72)" onmouseout="rc(72)"></textarea></div><div id="cell73" class="t1 bb4"><textarea class="i1" id="c73" name="c73" rows="1" cols="1" onKeyPress="return cn(event,73)" onKeyUp="sfs(73)" onKeyDown="return move(event,73)"  onClick="hl(73)" onmouseover="cc(73)" onmouseout="rc(73)"></textarea></div><div id="cell74" class="t1 bb4"><textarea class="i1" id="c74" name="c74" rows="1" cols="1" onKeyPress="return cn(event,74)" onKeyUp="sfs(74)" onKeyDown="return move(event,74)"  onClick="hl(74)" onmouseover="cc(74)" onmouseout="rc(74)"></textarea></div><div id="cell75" class="t1 bb4 bl2"><textarea class="i1" id="c75" name="c75" rows="1" cols="1" onKeyPress="return cn(event,75)" onKeyUp="sfs(75)" onKeyDown="return move(event,75)"  onClick="hl(75)" onmouseover="cc(75)" onmouseout="rc(75)"></textarea></div><div id="cell76" class="t1 bb4"><textarea class="i1" id="c76" name="c76" rows="1" cols="1" onKeyPress="return cn(event,76)" onKeyUp="sfs(76)" onKeyDown="return move(event,76)"  onClick="hl(76)" onmouseover="cc(76)" onmouseout="rc(76)"></textarea></div><div id="cell77" class="t1 bb4"><textarea class="i1" id="c77" name="c77" rows="1" cols="1" onKeyPress="return cn(event,77)" onKeyUp="sfs(77)" onKeyDown="return move(event,77)"  onClick="hl(77)" onmouseover="cc(77)" onmouseout="rc(77)"></textarea></div><div id="cell78" class="t1 bb4 bl2"><textarea class="i1" id="c78" name="c78" rows="1" cols="1" onKeyPress="return cn(event,78)" onKeyUp="sfs(78)" onKeyDown="return move(event,78)"  onClick="hl(78)" onmouseover="cc(78)" onmouseout="rc(78)"></textarea></div><div id="cell79" class="t1 bb4"><textarea class="i1" id="c79" name="c79" rows="1" cols="1" onKeyPress="return cn(event,79)" onKeyUp="sfs(79)" onKeyDown="return move(event,79)"  onClick="hl(79)" onmouseover="cc(79)" onmouseout="rc(79)"></textarea></div><div id="cell80" class="t1 bb4 br4"><textarea class="i1" id="c80" name="c80" rows="1" cols="1" onKeyPress="return cn(event,80)" onKeyUp="sfs(80)" onKeyDown="return move(event,80)"  onClick="hl(80)" onmouseover="cc(80)" onmouseout="rc(80)"></textarea></div><div id="csr9"></div><div id="csr9d"></div><div id="csrx"></div></div>
+</form>
+</div>
+<div id="content2">
+<div id="controlpanel">
+<div class="floatleft">
+<div id="bundo" class="igen5" onclick="if (!fh) undo()"><p>Undo</p></div>
+<div id="breset2" class="igen5" onclick="clear_puzzle();"><p>Reset</p></div>
+<div id="ssltn" class="igen5" onclick="if (!fh) showsolution();"><p>Solution</p></div>
+</div>
+<div class="floatright">
+<form class="nopad" name="smsolver" action="https://sudoku9x9.com/howtosolve.php" method="post" onsubmit="return chkvldpuzz()" autocomplete="off">
+<input type="hidden" id="sclue" name="sclue"><input type="hidden" id="subsltn" name="subsltn">
+<input name="s2solver" id="s2solver" class="igen5" value="Solve with Smart Solver" type="submit">
+</form>
+</div>
+</div>
+<div class="clearfloat"></div>
+<div id="controlpanel2">
+<div id="newpuzzle2">
+<p>Learn Sudoku Solving Techniques by Examples:</p>
+</div>
+<div id="gpuzzless" class="igen5" onclick="location.href='howtosolve.html'"><p>Solve a random puzzle with Smart Solver</p></div>
+</div>
+</div>
+</div>
+<div id="rightcol">
+<div id="numberoption">
+<div class="picknumber" id="b0" title="Keyboard" onmousedown="set_bgcolor(0)">
+<div id="kbicon" class="kbimg">
+</div>
+</div>
+<div class="picknumber" id="b1" onmousedown="set_bgcolor(1)">
+<div class="nmtxt"><p id="bn1">1</p></div>
+</div>
+<div class="picknumber" id="b2" onmousedown="set_bgcolor(2)">
+<div class="nmtxt"><p id="bn2">2</p></div>
+</div>
+<div class="picknumber" id="b3" onmousedown="set_bgcolor(3)">
+<div class="nmtxt"><p id="bn3">3</p></div>
+</div>
+<div class="picknumber" id="b4" onmousedown="set_bgcolor(4)">
+<div class="nmtxt"><p id="bn4">4</p></div>
+</div>
+<div class="picknumber" id="b5" onmousedown="set_bgcolor(5)">
+<div class="nmtxt"><p id="bn5">5</p></div>
+</div>
+<div class="picknumber" id="b6" onmousedown="set_bgcolor(6)">
+<div class="nmtxt"><p id="bn6">6</p></div>
+</div>
+<div class="picknumber" id="b7" onmousedown="set_bgcolor(7)">
+<div class="nmtxt"><p id="bn7">7</p></div>
+</div>
+<div class="picknumber" id="b8" onmousedown="set_bgcolor(8)">
+<div class="nmtxt"><p id="bn8">8</p></div>
+</div>
+<div class="picknumber" id="b9" onmousedown="set_bgcolor(9)">
+<div class="nmtxt"><p id="bn9">9</p></div>
+</div>
+<div class="picknumber" id="b10" onmousedown="set_bgcolor(10)">
+<div class="nmtxt"><p id="bn10">X</p></div>
+</div>
+</div>
+</div>
+<div class="clearfloat"></div>
+<div id="content3">
+<h2>Free Online Sudoku Solver</h2>
+<p>This free online Sudoku solver can solve any valid Sudoku puzzles with a smart option to show the rationale of each step - a good way to learn the solving techniques by examples.</p>
+</div>
+</div>
+</div>
+<div id="cblockl">
+<div id="tips3">
+<h5>Quick Start</h5>
+<p>Select a digit on the side of the grid first. Then click on the cells where you want to place the selected digit.  After entering your puzzle, press either the "Solution" button for an instant solution or the "Solve with Smart Solver" button to bring up our smart solver.</p>
+</div>
+</div>
+<div class="clearfloat"></div>
+<div id="footer">
+<p>
+<a class="flink1" href="sudoku_rules.html">Sudoku Rules</a>
+<a class="flink1" href="privacy_policy.html" rel="nofollow">Privacy Policy</a>
+<a class="flink1" href="contact_sudoku_9x9.html" rel="nofollow">Contact Us</a>
+</p>
+<div id="smalltext">
+Copyright &copy; 2009-2021 Sudoku9x9.com - All Rights Reserved.
+</div>
+</div>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<script type="text/javascript">
+  resetundo();
+  stacklength=1000;
+  length2step=new Array(stacklength);
+  historybgcolor=new Array(stacklength);
+  historyvalue=new Array(stacklength);
+  historycellnumber=new Array(stacklength);
+  oldvalue="";
+  oldbgcolor="";
+  oldcellnumber="";
+  busy=0;
+  busy2=0;
+setTimeout("preloadimage1()",400);setTimeout("preloadimage2()",700);  
+</script>
+</body>
+
+<!-- Mirrored from sudoku9x9.com/smartsolver.php by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 May 2021 12:33:21 GMT -->
+</html>
+
